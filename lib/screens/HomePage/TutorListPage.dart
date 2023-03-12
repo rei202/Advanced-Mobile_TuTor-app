@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lettutor/HomePage/components/BannerComponent.dart';
-import 'package:lettutor/HomePage/components/SearchComponent.dart';
-import 'package:lettutor/HomePage/components/TutorInfoCard.dart';
+
+import 'components/BannerComponent.dart';
+import 'components/TutorInfoCard.dart';
 
 class TutorListPage extends StatefulWidget {
   const TutorListPage({super.key});
