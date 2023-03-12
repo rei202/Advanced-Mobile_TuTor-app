@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/LoginPage.dart';
-import 'package:lettutor/screens/TutorDetail/TutorProfile.dart';
+import 'package:lettutor/screens/StudyingSchedule/StudyingSchedule.dart';
+import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
 
 
 void main() {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const TutorProfile(),
+      home: const StudyingSchedule(),
     );
   }
 }
