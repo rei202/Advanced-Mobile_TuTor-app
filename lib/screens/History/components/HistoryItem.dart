@@ -6,14 +6,14 @@ import 'package:lettutor/screens/StudyingSchedule/components/SessionItem.dart';
 
 import '../../HomePage/components/SkillTag.dart';
 
-class BookedScheduleItem extends StatefulWidget {
-  const BookedScheduleItem({super.key});
+class HistoryItem extends StatefulWidget {
+  const HistoryItem({super.key});
 
   @override
-  State<StatefulWidget> createState() => _BookedScheduleItemState();
+  State<StatefulWidget> createState() => _HistoryItemState();
 }
 
-class _BookedScheduleItemState extends State<BookedScheduleItem> {
+class _HistoryItemState extends State<HistoryItem> {
   // Default placeholder text.
   String lessonTime = "16:00 - 22:25";
   String bookingDate = "Wed, 15 Mar 23";
@@ -26,8 +26,9 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
       "I need you to help me review previous lesson because yesterday i accent";
 
   //resquset for lesson
-  bool active = false;
-  String exTitle = "Sport Categories";
+  bool isRequestFieldExpand = false;
+  // review from tutor
+  bool isReviewFieldExpand = false;
 
   void _updateText() {
     setState(() {
@@ -129,17 +130,17 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
             alignment: Alignment.topLeft,
             width: double.infinity,
             color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: sessionList,
+            child: Text(
+              "Lesson Time: " + lessonTime,
+              style: TextStyle(fontSize: 20),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 20, bottom: 10),
+            margin: EdgeInsets.only(top: 5),
             color: Colors.white,
             child: ExpansionPanelList(
               expansionCallback: (panelIndex, isExpanded) {
-                active = !active;
+                isRequestFieldExpand = !isRequestFieldExpand;
                 setState(() {});
               },
               children: <ExpansionPanel>[
@@ -151,9 +152,7 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                         child: Text(
                           "Request for lesson",
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold
-                          ),
+                              fontSize: 14),
                         ));
                   },
                   body: Wrap(
@@ -164,26 +163,73 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
                             color: Colors.limeAccent,
-                            border: Border.all(color: Colors.grey)
-                        ),
+                            border: Border.all(color: Colors.grey)),
                         width: double.infinity,
                         child: Text(
                           request,
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5
-                          ),
+                          style: TextStyle(fontSize: 14, height: 1.5),
                         ),
                       ),
-                      OutlinedButton(onPressed: (){}, child: Text("Edit request"))
                     ],
                   ),
-                  isExpanded: active,
+                  isExpanded: isRequestFieldExpand,
                   canTapOnHeader: false,
                 )
               ],
             ),
-          )
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5, bottom: 5),
+            color: Colors.white,
+            child: ExpansionPanelList(
+              expansionCallback: (panelIndex, isExpanded) {
+                isReviewFieldExpand = !isReviewFieldExpand;
+                setState(() {});
+              },
+              children: <ExpansionPanel>[
+                ExpansionPanel(
+                  headerBuilder: (context, isExpanded) {
+                    return Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          "Review from tutor",
+                          style: TextStyle(
+                              fontSize: 14),
+                        ));
+                  },
+                  body: Wrap(
+                    alignment: WrapAlignment.end,
+                    spacing: 8,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: Colors.limeAccent,
+                            border: Border.all(color: Colors.grey)),
+                        width: double.infinity,
+                        child: Text(
+                          request,
+                          style: TextStyle(fontSize: 14, height: 1.5),
+                        ),
+                      ),
+                    ],
+                  ),
+                  isExpanded: isReviewFieldExpand,
+                  canTapOnHeader: false,
+                )
+              ],
+            ),
+          ),
+          Container(
+            color: Colors.white,
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Row(children: [
+            TextButton(onPressed: (){}, child: Text("Add a rating")),
+            Spacer(),
+            TextButton(onPressed: (){}, child: Text("Report")),
+
+          ],),)
         ])));
   }
 
