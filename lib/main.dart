@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/Course/Course.dart';
+import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
 import 'package:lettutor/screens/History/History.dart';
 import 'package:lettutor/screens/HomePage/TutorListPage.dart';
 import 'package:lettutor/screens/LoginPage.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         // primarySwatch: Colors.blue,
       ),
-      home: const Course(),
+      home: const CourseDetail(),
     );
   }
 }
