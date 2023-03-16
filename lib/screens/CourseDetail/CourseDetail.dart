@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/HomePage/components/SearchComponent.dart';
+import 'package:lettutor/screens/LessonDetail/LessonDetail.dart';
 import 'package:outline_search_bar/outline_search_bar.dart';
 
 class CourseDetail extends StatefulWidget {
@@ -29,7 +30,11 @@ class _CourseDetailState extends State<CourseDetail>
     for (int i = 0; i < 10; i++) {
       String titleTopic = i.toString() + ". " + "Foods you love";
       widgets.add(
-        Card(
+        GestureDetector(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LessonDetail()));
+          },
+        child:Card(
           color: Colors.white,
           child: Container(
             width: 150,
@@ -38,7 +43,7 @@ class _CourseDetailState extends State<CourseDetail>
 
             child: Text(titleTopic, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400), textAlign: TextAlign.center,),
           ),
-        ),
+        ),)
       );
     }
     return widgets;
@@ -71,6 +76,7 @@ class _CourseDetailState extends State<CourseDetail>
                     width: double.infinity,
                     child: FilledButton(
                       style: ButtonStyle(
+
                         backgroundColor:
                             MaterialStateProperty.resolveWith<Color?>(
                           (Set<MaterialState> states) {
@@ -85,7 +91,10 @@ class _CourseDetailState extends State<CourseDetail>
                         ),
                       ),
                       child: Text("Discover"),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LessonDetail()));
+
+                      },
                     ),
                   ),
                 ]),

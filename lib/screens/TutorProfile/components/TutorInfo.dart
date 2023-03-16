@@ -105,7 +105,7 @@ class _TutorInfoState extends State<TutorInfo> {
             margin: EdgeInsets.only(bottom: 15),
             width: double.infinity,
             constraints: BoxConstraints(),
-            child: ElevatedButton(
+            child: FilledButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

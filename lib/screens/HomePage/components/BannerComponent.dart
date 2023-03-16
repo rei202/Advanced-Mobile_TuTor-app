@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +44,21 @@ class _BannerComponentState extends State<BannerComponent> {
               )),
           Container(
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // var options = JitsiMeetingOptions(
+                    //     room:
+                    //         "myroom") // room is Required, spaces will be trimmed
+                    //   ..serverURL = "https://meet.lettutor.com"
+                    //   ..subject = "Meeting with Gunschu"
+                    //   ..userDisplayName = "My Name"
+                    //   ..userEmail = "myemail@email.com"
+                    //   ..audioOnly = true
+                    //   ..audioMuted = true
+                    //   ..token = "213213213213"
+                    //   ..videoMuted = true;
+                    //
+                    // await JitsiMeet.joinMeeting(options);
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.white),
                     shape: MaterialStateProperty.all(

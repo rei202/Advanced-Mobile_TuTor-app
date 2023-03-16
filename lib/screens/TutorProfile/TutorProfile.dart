@@ -29,6 +29,11 @@ class _TutorProfileState extends State<TutorProfile> {
     _controller.play();
     _controller.setLooping(true);
   }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
   void _updateText() {
     setState(() {
       // Update the text.
@@ -61,6 +66,9 @@ class _TutorProfileState extends State<TutorProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Tutor Profile"),
+      ),
       body: ListView(
         children: [
           _controller.value.isInitialized

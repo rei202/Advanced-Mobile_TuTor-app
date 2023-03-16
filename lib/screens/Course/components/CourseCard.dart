@@ -2,6 +2,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
 
 class CourseCard extends StatefulWidget {
   const CourseCard({super.key});
@@ -25,7 +26,12 @@ class _CourseCardState extends State<CourseCard> {
 
   @override
   Widget build(BuildContext context) {
-    return (Card(
+    return (GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CourseDetail()));
+
+      },
+        child:Card(
         margin: EdgeInsets.only(bottom: 20),
         elevation: 2,
         color: Colors.white,
@@ -68,6 +74,6 @@ class _CourseCardState extends State<CourseCard> {
               ],
             ),
           )
-        ]))));
+        ])))));
   }
 }

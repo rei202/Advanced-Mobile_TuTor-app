@@ -2,6 +2,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
 
 class TutorInfoCard extends StatefulWidget {
   const TutorInfoCard({super.key});
@@ -26,99 +27,96 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return (Card(
-        margin: EdgeInsets.only(bottom: 20),
-        elevation: 2,
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Container(
-            padding: EdgeInsets.all(20),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Container(
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundColor: Colors.brown.shade800,
-                      child: const Text('AH'),
-                    ),
-                    Container(
-                        height: 70,
-                        margin: EdgeInsets.only(left: 22),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return (GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TutorProfile()));
+      },
+        child: Card(
+            margin: EdgeInsets.only(bottom: 20),
+            elevation: 2,
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Container(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Text(
-                              name,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Colors.black,
-                              ),
+                            CircleAvatar(
+                              radius: 35,
+                              backgroundColor: Colors.brown.shade800,
+                              child: const Text('AH'),
                             ),
-                            Text(
-                              toturNationality,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                              ),
-                            ),
-                            RatingBar.builder(
-                              itemSize: 15,
-                              initialRating: 0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 0.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
+                            Container(
+                                height: 70,
+                                margin: EdgeInsets.only(left: 22),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      name,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      toturNationality,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    RatingBar.builder(
+                                      itemSize: 15,
+                                      initialRating: 0,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 0.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    )
+                                  ],
+                                )),
+                            Spacer(),
+                            FavoriteButton(
+                              valueChanged: () {},
                             )
                           ],
-                        )),
-                    Spacer(),
-                    FavoriteButton(
-                      valueChanged: () {},
-                    )
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                ),
-              ),
-              Row(children: [Text("")]),
-              Text(
-                description.length > 270
-                    ? description.substring(0, 270) + '...'
-                    : description,
-                style: TextStyle(fontSize: 14, color: Colors.black45),
-              ),
-              ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        side: BorderSide(width: 1, color: Colors.black),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
                       ),
-                    ),
-                  ),
-                  child: Text(
-                    "Book",
-                    style: TextStyle(color: Colors.blue),
-                  ))
-            ]))));
+                      Row(children: [Text("")]),
+                      Text(
+                        description.length > 270
+                            ? description.substring(0, 270) + '...'
+                            : description,
+                        style: TextStyle(fontSize: 14, color: Colors.black45),
+                      ),
+                      FilledButton(
+                          onPressed: () {},
+
+                          child: Text(
+                            "Book",
+                          ))
+                    ])))));
   }
 }

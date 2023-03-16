@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'components/BannerComponent.dart';
 import 'components/TutorInfoCard.dart';
 
-class TutorListPage extends StatefulWidget {
-  const TutorListPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _TutorListPageState();
+  State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _TutorListPageState extends State<TutorListPage> {
+class _HomePageState extends State<HomePage> {
   // Default placeholder text.
   String textToShow = 'I Like Flutter';
 
@@ -47,6 +47,9 @@ class _TutorListPageState extends State<TutorListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Home"),
+      ),
       body: ListView(
         children: [
           BannerComponent(),
