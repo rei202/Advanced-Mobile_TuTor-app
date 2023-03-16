@@ -3,6 +3,7 @@ import 'package:lettutor/screens/Course/Course.dart';
 import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
 import 'package:lettutor/screens/History/History.dart';
 import 'package:lettutor/screens/HomePage/TutorListPage.dart';
+import 'package:lettutor/screens/LessonDetail/LessonDetail.dart';
 import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/StudyingSchedule/StudyingSchedule.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         // primarySwatch: Colors.blue,
       ),
-      home: const CourseDetail(),
+      home: const LessonDetail(),
     );
   }
 }

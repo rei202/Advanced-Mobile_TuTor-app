@@ -32,7 +32,7 @@ class _CourseDetailState extends State<CourseDetail>
         Card(
           color: Colors.white,
           child: Container(
-            width: 100,
+            width: 150,
             height: 100,
             margin: EdgeInsets.only(top: 16),
 
@@ -60,11 +60,11 @@ class _CourseDetailState extends State<CourseDetail>
                       "https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e"),
                   Container(
                     padding: EdgeInsets.all(20),
-                    child: Text("Basic Conversation Topics"),
+                    child: Text("Basic Conversation Topics", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                   ),
                   Container(
                     child:
-                        Text("Gain confidence speaking about familliar topics"),
+                        Text("Gain confidence speaking about familliar topics" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500), ),
                   ),
                   Container(
                     padding: EdgeInsets.all(20),
