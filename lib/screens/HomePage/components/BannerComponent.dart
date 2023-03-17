@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/MeetingScreen/MeetingScreen.dart';
 
 class BannerComponent extends StatefulWidget {
   const BannerComponent({super.key});
@@ -45,6 +46,10 @@ class _BannerComponentState extends State<BannerComponent> {
           Container(
               child: ElevatedButton(
                   onPressed: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MeetingScreen()));
                     // var options = JitsiMeetingOptions(
                     //     room:
                     //         "myroom") // room is Required, spaces will be trimmed

@@ -162,12 +162,12 @@ class _HistoryItemState extends State<HistoryItem> {
                       Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                            color: Colors.limeAccent,
+                            color: Colors.deepPurple,
                             border: Border.all(color: Colors.grey)),
                         width: double.infinity,
                         child: Text(
                           request,
-                          style: TextStyle(fontSize: 14, height: 1.5),
+                          style: TextStyle(fontSize: 14, height: 1.5,color: Colors.white),
                         ),
                       ),
                     ],
@@ -205,12 +205,12 @@ class _HistoryItemState extends State<HistoryItem> {
                       Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                            color: Colors.limeAccent,
+                            color: Colors.deepPurple,
                             border: Border.all(color: Colors.grey)),
                         width: double.infinity,
                         child: Text(
                           request,
-                          style: TextStyle(fontSize: 14, height: 1.5),
+                          style: TextStyle(fontSize: 14, height: 1.5,color: Colors.white),
                         ),
                       ),
                     ],

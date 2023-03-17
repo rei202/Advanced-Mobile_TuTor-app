@@ -163,7 +163,7 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                       Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                            color: Colors.limeAccent,
+                            color: Colors.deepPurple,
                             border: Border.all(color: Colors.grey)
                         ),
                         width: double.infinity,
@@ -171,7 +171,9 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                           request,
                           style: TextStyle(
                             fontSize: 14,
-                            height: 1.5
+                            height: 1.5,
+                            color: Colors.white
+
                           ),
                         ),
                       ),

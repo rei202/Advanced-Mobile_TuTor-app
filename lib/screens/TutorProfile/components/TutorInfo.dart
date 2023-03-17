@@ -31,9 +31,34 @@ class _TutorInfoState extends State<TutorInfo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    for (int i = 0; i < 5; i++) {
-      _listSkill.add(SkillTag(name: "name" + i.toString()));
-    }
+
+    _listSkill.add(Container(
+        padding: EdgeInsets.only(left: 5),
+        child: Chip(
+          label: Text(
+            "English",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0x8c6851a5),
+        )));
+    _listSkill.add(Container(
+        padding: EdgeInsets.only(left: 5),
+        child: Chip(
+          label: Text(
+            "Japanese",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0x8c6851a5),
+        )));
+    _listSkill.add(Container(
+        padding: EdgeInsets.only(left: 5),
+        child: Chip(
+          label: Text(
+            "Vietnamese",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0x8c6851a5),
+        )));
   }
 
   @override
@@ -118,6 +143,30 @@ class _TutorInfoState extends State<TutorInfo> {
                   style: TextStyle(color: Colors.white),
                 )),
           ),
+          Container(
+              padding: EdgeInsets.only(bottom: 10),
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+            IconButton(
+              onPressed: () {},
+              iconSize: 30,
+              color: Colors.deepPurple,
+              icon: Icon(
+                Icons.message_rounded,
+              ),
+            ),
+            IconButton(
+              iconSize: 30,
+              onPressed: () {},
+              color: Colors.deepPurple,
+
+              icon: Icon(
+                Icons.flag,
+              ),
+            )
+          ])),
           Text(
             description,
             style:
@@ -169,7 +218,9 @@ class _TutorInfoState extends State<TutorInfo> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 15,),
+            margin: EdgeInsets.only(
+              bottom: 15,
+            ),
             child: Text(
               "Teaching Experience",
               style: TextStyle(fontSize: 17, color: Colors.black),

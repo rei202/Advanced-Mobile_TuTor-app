@@ -60,6 +60,9 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Schedule"),
+      ),
         body: Container(
           padding: EdgeInsets.only(top:30, left: 10, right: 10),
       child: ListView(children: [BookedScheduleItem(), BookedScheduleItem()]),
