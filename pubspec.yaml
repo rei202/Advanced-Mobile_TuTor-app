@@ -36,6 +36,8 @@ dependencies:
   video_player: ^2.6.0
   outline_search_bar: ^2.3.0
   syncfusion_flutter_pdfviewer: ^20.4.53
+  flutter_svg: ^2.0.5
+
 #  jitsi_meet: ^4.0.0
 
   # The following adds the Cupertino Icons font to your application.
@@ -70,6 +72,7 @@ flutter:
     - images/fb-icon.png
     - images/google-icon.png
     - images/device-icon.png
+    - images/lettutor_logo.91f91ade.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

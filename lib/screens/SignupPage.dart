@@ -1,25 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lettutor/screens/ForgotPassword.dart';
+import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/MainScreen.dart';
-import 'package:lettutor/screens/SignupPage.dart';
 import 'package:lettutor/services/authenService.dart';
 
 import '../models/User.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _LoginPageState();
+  State<StatefulWidget> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   // Default placeholder text.
   String textToShow = 'I Like Flutter';
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController fullnameContrller = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   final Widget svg = SvgPicture.asset("images/lettutor_logo.91f91ade.svg",
       semanticsLabel: 'Acme Logo');
 
@@ -33,14 +34,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text("Sign up"),
+        ),
         backgroundColor: Colors.white,
         body: Container(
-            padding: EdgeInsets.only(top: 20, left: 10, right: 10),
+            padding: EdgeInsets.only(top: 0, left: 10, right: 10),
             margin: EdgeInsets.only(top: 70),
             child: ListView(children: [
               Container(
                 child: svg,
-                margin: EdgeInsets.only(bottom: 14),
               ),
               Container(
                 padding: EdgeInsets.only(top: 17, left: 25, right: 25),
@@ -48,29 +51,27 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          margin: EdgeInsets.only(bottom: 14),
+                          padding: EdgeInsets.only(bottom: 8, top: 8),
+                          alignment: Alignment.topLeft,
                           child: Text(
-                            "Say hello to your English tutors",
-                            textAlign: TextAlign.center,
+                            "FULL NAME  ",
+                            textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 28,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
                           )),
                       Container(
-                        margin: EdgeInsets.only(bottom: 7, top: 7),
-                        child: Text(
-                          "Become fluent faster through one on one video chat lessons tailored to your goals",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                        child: TextField(
+                          controller: fullnameContrller,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: OutlineInputBorder(),
                           ),
                         ),
                       ),
                       Container(
-                          padding: EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.only(bottom: 8, top: 8),
                           alignment: Alignment.topLeft,
                           child: Text(
                             "EMAIL  ",
@@ -110,56 +111,53 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Container(
-                          // margin: EdgeInsets.only(top: 16, bottom: 8),
+                          padding: EdgeInsets.only(bottom: 8, top: 8),
                           alignment: Alignment.topLeft,
-                          child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ForgotPasswordPage()),
-                                );
-                              },
-                              child: Text(
-                                "Forgot password ?",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.blue,
-                                ),
-                              ))),
+                          child: Text(
+                            "CONFIRM PASSWORD  ",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          )),
+                      Container(
+                        child: TextField(
+                          controller: confirmPasswordController,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 16, bottom: 8),
+                        alignment: Alignment.topLeft,
+                      ),
                       Container(
                           height: 40,
                           constraints:
                               BoxConstraints(minWidth: double.infinity),
                           child: ElevatedButton(
                             onPressed: () async {
-                              var response = await AuthenService.login(User(
-                                  emailController.text,
-                                  passwordController.text));
-                              print(response);
-                              if (response['isSuccess'] == true) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: const Text(
-                                      'Login successfully',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                                Future.delayed(Duration(seconds: 2), () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MainScreen()),
-                                  );
-                                });
+                              if (passwordController.text
+                                  .endsWith(confirmPasswordController.text)) {
+                                var response = await AuthenService.register(
+                                    fullnameContrller.text,
+                                    emailController.text,
+                                    passwordController.text);
+                                print(response);
+                                if (response['isSuccess'] == true) {
+                                  showSuccessfulAlert();
+                                  Future.delayed(Duration(seconds: 2), () {
+                                    Navigator.pop(context);
+                                  });
+                                } else {
+                                  showFailedAlert();
+                                }
                               }
                             },
-                            child: const Text('LOG IN'),
+                            child: const Text('REGISTER'),
                           )),
                       Container(
                           margin: EdgeInsets.only(top: 24, bottom: 24),
@@ -200,40 +198,30 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 )
                               ])),
-                      Container(
-                          margin: EdgeInsets.only(bottom: 40),
-                          alignment: Alignment.center,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Not a member yet? ",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignupPage()),
-                                      );
-                                    },
-                                    child: Text(
-                                      "Sign up",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.blue,
-                                      ),
-                                    ))
-                              ])),
                     ]),
               ),
             ])));
+  }
+
+  void showFailedAlert() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(
+        "Signup Failed",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16),
+      ),
+      backgroundColor: Colors.red,
+    ));
+  }
+
+  void showSuccessfulAlert() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(
+        'Signup successfully',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16),
+      ),
+      backgroundColor: Colors.green,
+    ));
   }
 }
