@@ -5,8 +5,8 @@ import 'package:video_player/video_player.dart';
 import 'components/TutorInfo.dart';
 
 class TutorProfile extends StatefulWidget {
-  const TutorProfile({super.key});
-
+  const TutorProfile({super.key, this.tutorId, });
+  final tutorId;
   @override
   State<StatefulWidget> createState() => _TutorProfileState();
 }
@@ -28,6 +28,7 @@ class _TutorProfileState extends State<TutorProfile> {
       });
     _controller.play();
     _controller.setLooping(true);
+    print("hello id " + widget.tutorId);
   }
   @override
   void dispose() {

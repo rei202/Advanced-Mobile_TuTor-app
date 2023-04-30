@@ -1,0 +1,48 @@
+
+class Tutor {
+  final String userId;
+  final String? avatar;
+  final String? name;
+  final String? bio;
+  final String? video;
+  final String? experience;
+  final String? languages;
+  final String? interests;
+  final String? country;
+  final double? rating;
+  late final bool? isFavorite;
+  final String? specialties;
+  Tutor(
+      {required this.userId,
+      this.avatar,
+      this.name,
+      this.bio,
+      this.specialties,
+      this.rating,
+      this.video,
+      this.experience,
+      this.languages,
+      this.interests,
+      this.country,
+      this.isFavorite});
+
+  factory Tutor.fromJson(Map<String, dynamic> json) {
+
+    return Tutor(
+      userId: json['userId'],
+      avatar: json['avatar'],
+      name: json['name'],
+      country: json['country'],
+      bio: json['bio'],
+      rating: json['rating'],
+      video: json['video'],
+      experience: json['experience'],
+      languages: json['languages'],
+      interests: json['interests'],
+      isFavorite: json['isFavorite'],
+      specialties: json['specialties'],
+
+    );
+  }
+
+}

@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
+import 'package:get_storage/get_storage.dart';
 import 'package:lettutor/env/url.dart';
+import 'package:lettutor/models/ResponseEntity.dart';
+import 'package:http/http.dart' as http;
 
+
+import '../models/AuthResponse.dart';
 import '../models/User.dart';
 
 
@@ -46,23 +50,19 @@ class AuthenService {
             'email': user.email,
             'password': user.password,
           }));
-
+      print(response.body);
       if (response.statusCode == 200) {
-        print(response.body);
+        final box = GetStorage();
+        String token = AuthResponse.fromJson(jsonDecode(response.body)).token;
+        await box.write("token", token);
+        // 'message': response.fromJson(jsonDecode(response.body)).message
         return{
-          'isSucess': true,
+          'isSuccess': true,
         };
-        // var storage = const FlutterSecureStorage();
-        // String token = LoginResponse.fromJson(jsonDecode(response.body)).token;
-        // await storage.write(key: 'accessToken', value: token);
-        // return {
-        //   'isSuccess': true,
-        //   'token': token,
-        // };
       } else {
         return {
           'isSuccess': false,
-          // 'message': HttpResponse.fromJson(jsonDecode(response.body)).message
+          'message': ResponseEntity.fromJson(jsonDecode(response.body)).message
         };
       }
     } on Error catch (_, error) {
@@ -93,7 +93,7 @@ class AuthenService {
       } else {
         return {
           'isSuccess': false,
-          // 'message': HttpResponse.fromJson(jsonDecode(response.body)).message
+          'message': ResponseEntity.fromJson(jsonDecode(response.body)).message
         };
       }
     } on Error catch (_, error) {

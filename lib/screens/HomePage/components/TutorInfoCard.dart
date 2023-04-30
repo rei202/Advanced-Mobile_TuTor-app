@@ -1,11 +1,20 @@
+import 'dart:ffi';
+
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lettutor/models/FavoriteTutor.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
 
+import '../../../models/Tutor.dart';
+
 class TutorInfoCard extends StatefulWidget {
-  const TutorInfoCard({super.key});
+  const TutorInfoCard(
+      {super.key, required this.tutor, required this.favoriteList});
+
+  final Tutor tutor;
+  final List<FavoriteTutor> favoriteList;
 
   @override
   State<StatefulWidget> createState() => _TutorInfoCardState();
@@ -13,24 +22,30 @@ class TutorInfoCard extends StatefulWidget {
 
 class _TutorInfoCardState extends State<TutorInfoCard> {
   // Default placeholder text.
-  String name = 'Keegan';
-  String toturNationality = "Viet Nam";
   String description =
       "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.";
+  late bool isFavorite = false;
 
-  void _updateText() {
-    setState(() {
-      // Update the text.
-      name = 'Flutter is Awesome!';
-    });
+  void checkFavorite(Tutor tutor, List<FavoriteTutor> favoriteList) {
+    if (favoriteList.any((element) => element.userId == tutor.userId)) {
+      setState(() {
+        isFavorite = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    String toturNationality = widget.tutor.country ?? "Unknown";
+    description = widget.tutor.bio.toString();
+    String image = widget.tutor.avatar ??
+        "https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg";
+    checkFavorite(widget.tutor, widget.favoriteList);
     return (GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TutorProfile()));
-      },
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => TutorProfile(tutorId: widget.tutor.userId)));
+        },
         child: Card(
             margin: EdgeInsets.only(bottom: 20),
             elevation: 2,
@@ -49,8 +64,8 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                           children: [
                             CircleAvatar(
                               radius: 35,
-                              backgroundColor: Colors.brown.shade800,
-                              child: const Text('AH'),
+                              backgroundColor: Colors.brown.shade200,
+                              backgroundImage: NetworkImage(image),
                             ),
                             Container(
                                 height: 70,
@@ -61,11 +76,11 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      name,
+                                      widget.tutor.name.toString(),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 22,
+                                        fontSize: 18,
                                         color: Colors.black,
                                       ),
                                     ),
@@ -78,8 +93,9 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                                       ),
                                     ),
                                     RatingBar.builder(
+                                      ignoreGestures: true,
                                       itemSize: 15,
-                                      initialRating: 0,
+                                      initialRating: widget.tutor.rating ?? 0.0,
                                       minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
@@ -97,26 +113,52 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                                   ],
                                 )),
                             Spacer(),
-                            FavoriteButton(
-                              valueChanged: () {},
-                            )
+                            IconButton(
+                              icon: Icon(
+                                isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: isFavorite ? Colors.red : Colors.black38,
+                              ),
+                              onPressed: () {},
+                            ),
                           ],
                           crossAxisAlignment: CrossAxisAlignment.start,
                         ),
                       ),
                       Row(children: [Text("")]),
+                      Container(
+                        height: 40,
+                          child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        // căn chỉnh các widget con bên trái
+                        children: widget.tutor.specialties
+                                ?.split(",")
+                                .map((specialties) {
+                              return Padding(
+                                  padding: EdgeInsets.only(right: 5),
+                                  child: Chip(
+                                    // selectedColor: Colors.amberAccent,
+                                    label: Text(
+                                      specialties.toString().replaceAll("-", " "),
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ));
+                            }).toList() ??
+                            [],
+                      )),
                       Text(
                         description.length > 270
                             ? description.substring(0, 270) + '...'
                             : description,
                         style: TextStyle(fontSize: 14, color: Colors.black45),
                       ),
-                      FilledButton(
-                          onPressed: () {},
-
-                          child: Text(
-                            "Book",
-                          ))
+                      // FilledButton(
+                      //     onPressed: () {},
+                      //
+                      //     child: Text(
+                      //       "Book",
+                      //     ))
                     ])))));
   }
 }

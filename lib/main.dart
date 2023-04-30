@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:lettutor/screens/Course/Course.dart';
 import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
 import 'package:lettutor/screens/ForgotPassword.dart';
@@ -11,7 +12,8 @@ import 'package:lettutor/screens/SignupPage.dart';
 import 'package:lettutor/screens/StudyingSchedule/StudyingSchedule.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
 
-void main() {
+Future<void> main() async {
+  await GetStorage.init();
   runApp(const MyHomePage());
 }
 
