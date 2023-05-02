@@ -44,7 +44,7 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
     return (GestureDetector(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => TutorProfile(tutorId: widget.tutor.userId)));
+              context, MaterialPageRoute(builder: (context) => TutorProfile(tutorId: widget.tutor.userId, feedbacks: widget.tutor.feedbacks)));
         },
         child: Card(
             margin: EdgeInsets.only(bottom: 20),

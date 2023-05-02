@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/models/Booking.dart';
 import 'package:lettutor/models/FavoriteTutor.dart';
+import 'package:lettutor/services/callService.dart';
+import 'package:lettutor/services/classService.dart';
 import 'package:lettutor/services/searchService.dart';
 import 'package:lettutor/services/tutorService.dart';
+import 'package:lettutor/utils/Time.dart';
 import 'package:outline_search_bar/outline_search_bar.dart';
 
 import '../../models/Tutor.dart';
@@ -46,6 +50,9 @@ class _HomePageState extends State<HomePage> {
   int currentPage = 1;
   bool isLoading = false;
   String dropdownValue = 'None';
+  int totalLessonTime = 0;
+  List<Booking> bookingList = [];
+  Booking? upComingLesson = null;
 
   void getTutorList(int page, int perPage) async {
     var resTutorList = await TutorService.getTutorList(
@@ -70,6 +77,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> getTotalLessonTime() async {
+    int time = await CallService.getTotalTimeLesson();
+    setState(() {
+      totalLessonTime = time;
+    });
+  }
+
+  Future<void> getBookingList() async {
+    int timeStampNow = DateTime.now().millisecondsSinceEpoch;
+    print(timeStampNow);
+    List<Booking>? temp = await ClassService.getBookingList(timeStampNow);
+    setState(() {
+      bookingList = List.of(temp!);
+      upComingLesson = TimeUtil.getNearestObject(temp!, timeStampNow)!;
+    });
+  }
+
   void loadMoreTutorList() async {
     var resTutorList = await TutorService.getTutorList(
       currentPage,
@@ -87,6 +111,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getTotalLessonTime();
+    getBookingList();
     _scrollController.addListener(() {
       if (_scrollController.offset ==
           _scrollController.position.maxScrollExtent) {
@@ -127,7 +153,32 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          BannerComponent(),
+          upComingLesson != null
+              ? BannerComponent(
+                  totalLessonTime: totalLessonTime,
+                  upComingLession: upComingLesson!)
+              : Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  height: 150,
+                  color: Colors.blueAccent,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "You have no upcoming lesson",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          ' Welcome to LetTutor!',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ])),
           Container(
               padding: EdgeInsets.only(left: 20, right: 20, top: 20),
               child: OutlineSearchBar(

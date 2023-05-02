@@ -1,4 +1,6 @@
 
+import 'Feedback.dart';
+
 class Tutor {
   final String userId;
   final String? avatar;
@@ -12,6 +14,8 @@ class Tutor {
   final double? rating;
   late final bool? isFavorite;
   final String? specialties;
+  List<FeedBack>? feedbacks;
+
   Tutor(
       {required this.userId,
       this.avatar,
@@ -24,10 +28,33 @@ class Tutor {
       this.languages,
       this.interests,
       this.country,
-      this.isFavorite});
+      this.isFavorite,
+      this.feedbacks});
+
+  factory Tutor.fromTutorInforJson(Map<String, dynamic> json) {
+    return Tutor(
+      userId: json['User']['id'],
+      name: json['User']['name'],
+      bio: json['bio'],
+      country: json['User']['country'],
+      avatar: json['User']['avatar'],
+      specialties: json['specialties'],
+      experience: json['experience'],
+      video: json['video'],
+      rating: json['rating'],
+      interests: json['interests'],
+      isFavorite: json['isFavorite'],
+      languages: json['languages'],
+    );
+  }
 
   factory Tutor.fromJson(Map<String, dynamic> json) {
-
+    List<FeedBack> feedbacks = [];
+    if (json['feedbacks'] != null) {
+      for (var feedBack in json['feedbacks']) {
+        feedbacks.add(FeedBack.fromJson(feedBack));
+      }
+    }
     return Tutor(
       userId: json['userId'],
       avatar: json['avatar'],
@@ -41,8 +68,9 @@ class Tutor {
       interests: json['interests'],
       isFavorite: json['isFavorite'],
       specialties: json['specialties'],
-
+      feedbacks: feedbacks,
     );
   }
+
 
 }

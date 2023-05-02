@@ -2,10 +2,19 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lettutor/models/Booking.dart';
 import 'package:lettutor/screens/MeetingScreen/MeetingScreen.dart';
+import 'package:lettutor/utils/Time.dart';
 
 class BannerComponent extends StatefulWidget {
-  const BannerComponent({super.key});
+  const BannerComponent(
+      {super.key,
+      required this.totalLessonTime,
+      required this.upComingLession});
+
+  final int totalLessonTime;
+  final Booking upComingLession;
 
   @override
   State<StatefulWidget> createState() => _BannerComponentState();
@@ -16,11 +25,11 @@ class _BannerComponentState extends State<BannerComponent> {
   String schedule = 'Sat, 11 Mar 23 14:00 - 14:25';
   String totalTime = 'Total lesson time is 300 hours 25 minutes';
 
-  void _updateText() {
-    setState(() {
-      // Update the text.
-      schedule = 'Flutter is Awesome!';
-    });
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(widget.upComingLession.scheduleDetailInfo?.startPeriodTimestamp);
+    super.initState();
   }
 
   @override
@@ -38,11 +47,22 @@ class _BannerComponentState extends State<BannerComponent> {
               color: Colors.white,
             ),
           ),
-          Text(schedule,
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-              )),
+          Text(
+            DateFormat('EEE, dd MMM yy HH:mm').format(
+                    DateTime.fromMillisecondsSinceEpoch(widget.upComingLession
+                            .scheduleDetailInfo?.startPeriodTimestamp ??
+                        0)) +
+                ' - ' +
+                DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(
+                    widget.upComingLession.scheduleDetailInfo
+                            ?.endPeriodTimestamp ??
+                        0)),
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              fontWeight: FontWeight.w500
+            ),
+          ),
           Container(
               child: ElevatedButton(
                   onPressed: () async {
@@ -77,7 +97,8 @@ class _BannerComponentState extends State<BannerComponent> {
                     "Enter lesson room",
                     style: TextStyle(color: Colors.blue),
                   ))),
-          Text(totalTime,
+          Text(
+              "Total lesson time is ${TimeUtil.formatMinuteToHourCount(widget.totalLessonTime)}",
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.white,

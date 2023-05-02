@@ -30,14 +30,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  syncfusion_flutter_datepicker: ^20.4.53
+  syncfusion_flutter_datepicker: ^21.1.41
   flutter_rating_bar: ^4.0.1
   favorite_button: ^0.0.4
   video_player: ^2.6.0
   outline_search_bar: ^2.3.0
-  syncfusion_flutter_pdfviewer: ^20.4.53
+  syncfusion_flutter_pdfviewer: ^21.1.41
   flutter_svg: ^2.0.5
   get_storage: ^2.1.0
+  syncfusion_flutter_calendar: ^21.1.41
+  intl: ^0.18.1
+  fluttertoast: ^8.2.1
   #  jitsi_meet: ^4.0.0
 
   # The following adds the Cupertino Icons font to your application.
