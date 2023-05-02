@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
   int totalLessonTime = 0;
   List<Booking> bookingList = [];
   Booking? upComingLesson = null;
+  // bool isInProgress = true;
 
   void getTutorList(int page, int perPage) async {
     var resTutorList = await TutorService.getTutorList(
@@ -72,6 +73,7 @@ class _HomePageState extends State<HomePage> {
         favoriteList.addAll(list2!);
         tutorList = List.of(originalTutorList);
         currentPage++;
+        // isInProgress = false;
       });
       isLoading = true;
     }
@@ -95,6 +97,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void loadMoreTutorList() async {
+    setState(() {
+      // isInProgress = true;
+    });
     var resTutorList = await TutorService.getTutorList(
       currentPage,
       perPage,
@@ -104,6 +109,7 @@ class _HomePageState extends State<HomePage> {
       currentPage++;
       originalTutorList.addAll(list1!);
       tutorList = List.of(originalTutorList);
+      // isInProgress = false;
     });
   }
 
@@ -112,6 +118,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     getTotalLessonTime();
+    getTutorList(page, perPage);
     getBookingList();
     _scrollController.addListener(() {
       if (_scrollController.offset ==
@@ -145,7 +152,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    getTutorList(page, perPage);
     print(tutorList.length);
     return Scaffold(
       appBar: AppBar(
@@ -313,6 +319,7 @@ class _HomePageState extends State<HomePage> {
                     return Padding(
                         padding: EdgeInsets.symmetric(vertical: 32),
                         child: Center(child: CircularProgressIndicator()));
+
                 }),
           )
         ],

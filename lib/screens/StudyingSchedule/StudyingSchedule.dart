@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/StudyingSchedule/components/BookedScheduleItem.dart';
+import 'package:lettutor/services/classService.dart';
+import 'package:lettutor/utils/Schedule.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../models/Booking.dart';
 
 class StudyingSchedule extends StatefulWidget {
   const StudyingSchedule({super.key});
@@ -14,58 +18,72 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
   // Default placeholder text.
   String textToShow = 'I Like Flutter';
   late VideoPlayerController _controller;
+  bool isLoading = false;
+  late List<List<Booking>> bookingList = [];
+  int currentPage = 1;
+  final ScrollController _scrollController = ScrollController();
+  int perPage = 10;
+  // bool isInProgress = false;
 
   @override
   void initState() {
     super.initState();
-    // _controller = VideoPlayerController.network(
-    //     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-    //   ..initialize().then((_) {
-    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    //     setState(() {});
-    //   });
-    // _controller.play();
-    // _controller.setLooping(true);
-  }
 
-  void _updateText() {
-    setState(() {
-      // Update the text.
-      textToShow = 'Flutter is Awesome!';
+    loadMoreStudyingScheduleList(1, perPage);
+    _scrollController.addListener(() {
+      if (_scrollController.offset ==
+          _scrollController.position.maxScrollExtent) {
+        loadMoreStudyingScheduleList(currentPage, perPage);
+      }
     });
   }
 
-  // List<Widget> _getListData() {
-  //   List<Widget> widgets = [];
-  //   widgets.add(
-  //     Container(
-  //         margin: EdgeInsets.only(top: 16, bottom: 8),
-  //         alignment: Alignment.topLeft,
-  //         child: Text(
-  //           "Recommended Tutors",
-  //           textAlign: TextAlign.start,
-  //           style: TextStyle(
-  //             fontWeight: FontWeight.bold,
-  //             fontSize: 25,
-  //             color: Colors.black,
-  //           ),
-  //         )),
-  //   );
-  //   for (int i = 0; i < 10; i++) {
-  //     widgets.add(TutorInfoCard());
-  //   }
-  //   return widgets;
-  // }
+  void initStudyingScheduleList(page, perPage) async {
+    int timeStampNow = DateTime.now().millisecondsSinceEpoch;
+    if (!isLoading) {
+      var temp =
+          await ClassService.getsortedBookingList(page, perPage, timeStampNow, "asc");
+      setState(() {
+        currentPage++;
+        isLoading = true;
+        bookingList.addAll(List.of(ScheduleUtils.groupScheduleItems(temp!)));
+      });
+    }
+  }
+
+  void loadMoreStudyingScheduleList(page, perPage) async {
+    setState(() {
+      // isInProgress = true;
+    });
+    int timeStampNow = DateTime.now().millisecondsSinceEpoch;
+    var temp =
+        await ClassService.getsortedBookingList(page, perPage, timeStampNow, "asc");
+    setState(() {
+      currentPage++;
+      bookingList.addAll(ScheduleUtils.groupScheduleItems(temp!));
+      // isInProgress = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Schedule"),
-      ),
+        appBar: AppBar(
+          title: Text("Schedule"),
+        ),
         body: Container(
-          padding: EdgeInsets.only(top:30, left: 10, right: 10),
-      child: ListView(children: [BookedScheduleItem(), BookedScheduleItem()]),
-    ));
+            padding: EdgeInsets.only(top: 30, left: 10, right: 10),
+            child: ListView.builder(
+                controller: _scrollController,
+                itemCount: bookingList.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index < bookingList.length)
+                    return BookedScheduleItem(
+                        groupBookingItem: bookingList[index]);
+                  else
+                    return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 32),
+                        child: Center(child: CircularProgressIndicator()));
+                })));
   }
 }

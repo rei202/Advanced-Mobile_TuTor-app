@@ -40,7 +40,7 @@ class _TutorInfoState extends State<TutorInfo> {
   bool checkbox2 = false;
   bool checkbox3 = false;
   TextEditingController _reportTextController = TextEditingController();
-  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -212,7 +212,7 @@ class _TutorInfoState extends State<TutorInfo> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Review()));
+                                    builder: (context) => Review(tutorId: widget.tutor.userId,)));
                           },
                           iconSize: 30,
                           color: Colors.deepPurple,

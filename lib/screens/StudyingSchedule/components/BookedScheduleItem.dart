@@ -2,12 +2,17 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
+import 'package:lettutor/models/TutorInfo.dart';
 import 'package:lettutor/screens/StudyingSchedule/components/SessionItem.dart';
 
+import '../../../models/Booking.dart';
 import '../../HomePage/components/SkillTag.dart';
 
 class BookedScheduleItem extends StatefulWidget {
-  const BookedScheduleItem({super.key});
+  const BookedScheduleItem({super.key, required this.groupBookingItem});
+
+  final List<Booking> groupBookingItem;
 
   @override
   State<StatefulWidget> createState() => _BookedScheduleItemState();
@@ -15,10 +20,8 @@ class BookedScheduleItem extends StatefulWidget {
 
 class _BookedScheduleItemState extends State<BookedScheduleItem> {
   // Default placeholder text.
-  String lessonTime = "16:00 - 22:25";
-  String bookingDate = "Wed, 15 Mar 23";
-  String name = 'Keegan';
-  String toturNationality = "Viet Nam";
+  late String name;
+  late String toturNationality;
   String description =
       "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.";
   List<Widget> sessionList = [];
@@ -29,27 +32,35 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
   bool active = false;
   String exTitle = "Sport Categories";
 
-  void _updateText() {
-    setState(() {
-      // Update the text.
-      name = 'Flutter is Awesome!';
-    });
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    TutorInfo tutorInfo = widget.groupBookingItem[0].scheduleDetailInfo!.scheduleInfo!.tutorInfo!;
+    setState(() {
+      name = tutorInfo.name!;
+      toturNationality = tutorInfo.country!;
+    });
+    List <Booking> booking = widget.groupBookingItem;
     sessionList.add(
       Text(
-        "Lesson Time: " + lessonTime,
+        booking.length == 1 ? DateFormat('HH:mm').format(
+          DateTime.fromMillisecondsSinceEpoch(booking[0].scheduleDetailInfo!.startPeriodTimestamp)) + ' - ' +  DateFormat('HH:mm').format(
+            DateTime.fromMillisecondsSinceEpoch(booking[0].scheduleDetailInfo!.endPeriodTimestamp))
+        :
+        "Lesson Time: " +  DateFormat('HH:mm').format(
+            DateTime.fromMillisecondsSinceEpoch(booking[0].scheduleDetailInfo!.startPeriodTimestamp)) + ' - ' + DateFormat('HH:mm').format(
+            DateTime.fromMillisecondsSinceEpoch(booking[booking.length - 1].scheduleDetailInfo!.endPeriodTimestamp)),
         style: TextStyle(fontSize: 20),
       ),
     );
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < booking.length; i++) {
       sessionList.add(SessionItem(
           sessionNumber: i.toString(),
-          sessionTime: "16:00 - 16:25",
+          sessionTime:  DateFormat('HH:mm').format(
+              DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.startPeriodTimestamp)) + ' - ' +  DateFormat('HH:mm').format(
+              DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.endPeriodTimestamp)),
           isBook: true));
     }
   }
@@ -62,7 +73,9 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
         margin: EdgeInsets.only(bottom: 30),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            bookingDate,
+            DateFormat('EEE, dd MMM yy').format(
+                DateTime.fromMillisecondsSinceEpoch(widget.groupBookingItem[0]
+                    .scheduleDetailInfo!.startPeriodTimestamp)),
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           Container(
@@ -75,7 +88,7 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                 CircleAvatar(
                   radius: 35,
                   backgroundColor: Colors.brown.shade800,
-                  child: const Text('AH'),
+                  backgroundImage: NetworkImage(widget.groupBookingItem[0].scheduleDetailInfo!.scheduleInfo!.tutorInfo!.avatar!),
                 ),
                 Container(
                     height: 70,
@@ -101,22 +114,6 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                             color: Colors.black,
                           ),
                         ),
-                        RatingBar.builder(
-                          itemSize: 15,
-                          initialRating: 0,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        )
                       ],
                     )),
                 Spacer(),
@@ -151,9 +148,7 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                         child: Text(
                           "Request for lesson",
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold
-                          ),
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ));
                   },
                   body: Wrap(
@@ -164,20 +159,16 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
                             color: Colors.deepPurple,
-                            border: Border.all(color: Colors.grey)
-                        ),
+                            border: Border.all(color: Colors.grey)),
                         width: double.infinity,
                         child: Text(
                           request,
                           style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            color: Colors.white
-
-                          ),
+                              fontSize: 14, height: 1.5, color: Colors.white),
                         ),
                       ),
-                      OutlinedButton(onPressed: (){}, child: Text("Edit request"))
+                      OutlinedButton(
+                          onPressed: () {}, child: Text("Edit request"))
                     ],
                   ),
                   isExpanded: active,

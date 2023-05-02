@@ -1,13 +1,19 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
+import 'package:lettutor/models/Booking.dart';
+import 'package:lettutor/models/TutorInfo.dart';
 import 'package:lettutor/screens/StudyingSchedule/components/SessionItem.dart';
 
 import '../../HomePage/components/SkillTag.dart';
 
 class HistoryItem extends StatefulWidget {
-  const HistoryItem({super.key});
+  const HistoryItem({super.key, required this.booking});
+
+  final Booking booking;
 
   @override
   State<StatefulWidget> createState() => _HistoryItemState();
@@ -15,10 +21,9 @@ class HistoryItem extends StatefulWidget {
 
 class _HistoryItemState extends State<HistoryItem> {
   // Default placeholder text.
-  String lessonTime = "16:00 - 22:25";
-  String bookingDate = "Wed, 15 Mar 23";
-  String name = 'Keegan';
-  String toturNationality = "Viet Nam";
+  late String bookingDate;
+  late String name;
+  late String toturNationality;
   String description =
       "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.";
   List<Widget> sessionList = [];
@@ -27,6 +32,7 @@ class _HistoryItemState extends State<HistoryItem> {
 
   //resquset for lesson
   bool isRequestFieldExpand = false;
+
   // review from tutor
   bool isReviewFieldExpand = false;
 
@@ -40,19 +46,16 @@ class _HistoryItemState extends State<HistoryItem> {
   @override
   void initState() {
     // TODO: implement initState
+    TutorInfo tutorInfo =
+        widget.booking.scheduleDetailInfo!.scheduleInfo!.tutorInfo!;
+    setState(() {
+      name = tutorInfo.name!;
+      toturNationality = tutorInfo.country!;
+      bookingDate = DateFormat('EEE, dd MMM yy').format(
+          DateTime.fromMillisecondsSinceEpoch(
+              widget.booking.scheduleDetailInfo!.startPeriodTimestamp));
+    });
     super.initState();
-    sessionList.add(
-      Text(
-        "Lesson Time: " + lessonTime,
-        style: TextStyle(fontSize: 20),
-      ),
-    );
-    for (int i = 0; i < 10; i++) {
-      sessionList.add(SessionItem(
-          sessionNumber: i.toString(),
-          sessionTime: "16:00 - 16:25",
-          isBook: true));
-    }
   }
 
   @override
@@ -76,7 +79,8 @@ class _HistoryItemState extends State<HistoryItem> {
                 CircleAvatar(
                   radius: 35,
                   backgroundColor: Colors.brown.shade800,
-                  child: const Text('AH'),
+                  backgroundImage: NetworkImage(widget.booking
+                      .scheduleDetailInfo!.scheduleInfo!.tutorInfo!.avatar!),
                 ),
                 Container(
                     height: 70,
@@ -102,22 +106,7 @@ class _HistoryItemState extends State<HistoryItem> {
                             color: Colors.black,
                           ),
                         ),
-                        RatingBar.builder(
-                          itemSize: 15,
-                          initialRating: 0,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        )
+
                       ],
                     )),
                 Spacer(),
@@ -131,7 +120,14 @@ class _HistoryItemState extends State<HistoryItem> {
             width: double.infinity,
             color: Colors.white,
             child: Text(
-              "Lesson Time: " + lessonTime,
+              "Lesson Time: " +
+                  DateFormat('HH:mm').format(
+                      DateTime.fromMillisecondsSinceEpoch(widget
+                          .booking.scheduleDetailInfo!.startPeriodTimestamp)) +
+                  ' - ' +
+                  DateFormat('HH:mm').format(
+                      DateTime.fromMillisecondsSinceEpoch(widget
+                          .booking.scheduleDetailInfo!.endPeriodTimestamp)),
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -151,8 +147,7 @@ class _HistoryItemState extends State<HistoryItem> {
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
                           "Request for lesson",
-                          style: TextStyle(
-                              fontSize: 14),
+                          style: TextStyle(fontSize: 14),
                         ));
                   },
                   body: Wrap(
@@ -167,7 +162,8 @@ class _HistoryItemState extends State<HistoryItem> {
                         width: double.infinity,
                         child: Text(
                           request,
-                          style: TextStyle(fontSize: 14, height: 1.5,color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14, height: 1.5, color: Colors.white),
                         ),
                       ),
                     ],
@@ -194,8 +190,7 @@ class _HistoryItemState extends State<HistoryItem> {
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
                           "Review from tutor",
-                          style: TextStyle(
-                              fontSize: 14),
+                          style: TextStyle(fontSize: 14),
                         ));
                   },
                   body: Wrap(
@@ -210,7 +205,8 @@ class _HistoryItemState extends State<HistoryItem> {
                         width: double.infinity,
                         child: Text(
                           request,
-                          style: TextStyle(fontSize: 14, height: 1.5,color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14, height: 1.5, color: Colors.white),
                         ),
                       ),
                     ],
@@ -224,12 +220,14 @@ class _HistoryItemState extends State<HistoryItem> {
           Container(
             color: Colors.white,
             padding: EdgeInsets.only(left: 10, right: 10),
-            child: Row(children: [
-            TextButton(onPressed: (){}, child: Text("Add a rating")),
-            Spacer(),
-            TextButton(onPressed: (){}, child: Text("Report")),
-
-          ],),)
+            child: Row(
+              children: [
+                TextButton(onPressed: () {}, child: Text("Add a rating")),
+                Spacer(),
+                TextButton(onPressed: () {}, child: Text("Report")),
+              ],
+            ),
+          )
         ])));
   }
 

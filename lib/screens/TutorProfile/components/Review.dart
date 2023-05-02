@@ -5,11 +5,10 @@ import 'package:lettutor/screens/TutorProfile/components/ReviewItem.dart';
 
 import '../../../services/tutorService.dart';
 
-List<String> tutorList = ["", "", "", ""];
 
 class Review extends StatefulWidget {
-  const Review({Key? key}) : super(key: key);
-
+  const Review({Key? key, required this.tutorId}) : super(key: key);
+  final String tutorId;
   @override
   State<Review> createState() => _ReviewState();
 }
@@ -25,43 +24,38 @@ class _ReviewState extends State<Review> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    initReviewList(
+        currentPage, perPage, widget.tutorId);
     _scrollController.addListener(() {
       if (_scrollController.offset ==
           _scrollController.position.maxScrollExtent) {
-        loadMoreReviewList(currentPage, perPage, "4d54d3d7-d2a9-42e5-97a2-5ed38af5789a");
+        loadMoreReviewList(
+            currentPage, perPage, widget.tutorId);
       }
     });
   }
 
   void loadMoreReviewList(page, perPage, userId) async {
-    var resReviewList =
-        await TutorService.getReview(page, perPage, userId);
+    var resReviewList = await TutorService.getReview(page, perPage, userId);
     setState(() {
       currentPage++;
       originalReviewList.addAll(resReviewList!);
     });
   }
-  void initReviewList(page, perPage, userId) async {
 
-    if(!isLoad){
-      var resReviewList =
-      await TutorService.getReview(page, perPage, userId);
+  void initReviewList(page, perPage, userId) async {
+    if (!isLoad) {
+      var resReviewList = await TutorService.getReview(page, perPage, userId);
       setState(() {
         currentPage++;
         originalReviewList.addAll(resReviewList!);
         isLoad = true;
       });
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    initReviewList(
-      currentPage,
-      perPage,
-      "4d54d3d7-d2a9-42e5-97a2-5ed38af5789a"
-    );
     return Scaffold(
         appBar: AppBar(
           title: Text("Review"),
@@ -71,7 +65,9 @@ class _ReviewState extends State<Review> {
             itemCount: originalReviewList.length + 1,
             itemBuilder: (BuildContext context, int index) {
               if (index < originalReviewList.length)
-                return ReviewItem(feedBack: originalReviewList[index],);
+                return ReviewItem(
+                  feedBack: originalReviewList[index],
+                );
               else
                 return Padding(
                     padding: EdgeInsets.symmetric(vertical: 32),

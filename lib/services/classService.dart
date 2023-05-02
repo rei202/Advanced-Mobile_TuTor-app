@@ -40,7 +40,7 @@ class ClassService {
       } else {
         final jsonRes = json.decode(response.body);
         final String message = jsonRes["message"];
-        final String statusCode = jsonRes["statusCode"];
+        final int statusCode = jsonRes["statusCode"];
         return {
           'isSuccess': false,
           'message': message,
@@ -78,18 +78,29 @@ class ClassService {
   }
 
   static Future<List<Booking>?> getsortedBookingList(
-      int page, int perPage, int timeStampNow) async {
+      int page, int perPage, int timeStampNow, String sortBy) async {
     try {
       final box = GetStorage();
       String? token = await box.read('token');
-      final url = Uri.https(baseUrl,
-          'booking/list/student?page=${page}&perPage=${perPage}&dateTimeGte=${timeStampNow}&orderBy=meeting&sortBy=asc');
+      final url = sortBy == 'asc' ? Uri.https(baseUrl, 'booking/list/student', {
+        'page': '$page',
+        'perPage': '$perPage',
+        'dateTimeGte': '$timeStampNow',
+        'orderBy': 'meeting',
+        'sortBy': sortBy,
+      }) : Uri.https(baseUrl, 'booking/list/student', {
+        'page': '$page',
+        'perPage': '$perPage',
+        'dateTimeLte': '$timeStampNow',
+        'orderBy': 'meeting',
+        'sortBy': sortBy,
+      });
 
       final response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token'
       });
-
+      print(page);
       if (response.statusCode == 200) {
         final jsonRes = json.decode(response.body);
         final List<dynamic> bookingListJson = jsonRes["data"]["rows"];
