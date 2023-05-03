@@ -101,7 +101,7 @@ class _TutorProfileState extends State<TutorProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tutor Profile"),
+        title: Text("Tutor Profile",  style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: ListView(
         children: [

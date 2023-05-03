@@ -34,7 +34,7 @@ class _BookingClassState extends State<BookingClass> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Booking"),
+          title: Text("Booking", style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         body: Container(
           padding: EdgeInsets.all(20),
@@ -91,7 +91,7 @@ class _BookingClassState extends State<BookingClass> {
                   textStyle: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue,
+                    color: myPurple,
                   ),
                 ),
                 timeSlotViewSettings: TimeSlotViewSettings(

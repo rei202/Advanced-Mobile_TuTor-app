@@ -104,6 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                       Container(
                         child: TextField(
                           controller: passwordController,
+                          obscureText: true,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(10),
                             border: OutlineInputBorder(),
@@ -124,6 +125,7 @@ class _SignupPageState extends State<SignupPage> {
                       Container(
                         child: TextField(
                           controller: confirmPasswordController,
+                          obscureText: true,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(10),
                             border: OutlineInputBorder(),

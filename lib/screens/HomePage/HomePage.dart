@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/models/Booking.dart';
 import 'package:lettutor/models/FavoriteTutor.dart';
 import 'package:lettutor/services/callService.dart';
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage> {
   int totalLessonTime = 0;
   List<Booking> bookingList = [];
   Booking? upComingLesson = null;
+  bool isSearching = false;
   // bool isInProgress = true;
 
   void getTutorList(int page, int perPage) async {
@@ -123,7 +125,9 @@ class _HomePageState extends State<HomePage> {
     _scrollController.addListener(() {
       if (_scrollController.offset ==
           _scrollController.position.maxScrollExtent) {
-        loadMoreTutorList();
+        print(isSearching);
+        if(!isSearching)
+          loadMoreTutorList();
       }
     });
   }
@@ -135,18 +139,17 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void _updateText() {
-    setState(() {
-      // Update the text.
-      textToShow = 'Flutter is Awesome!';
-    });
-  }
 
   Future<void> search(_filters, searchString, page, perPage) async {
+    print(isSearching);
     List<Tutor>? temp =
         await SearchService.search(_filters, searchString, page, perPage);
     setState(() {
       tutorList = List.of(temp!);
+      if(searchString.toString().isEmpty && _filters.isEmpty)
+        isSearching = false;
+      else
+        isSearching = true;
     });
   }
 
@@ -155,7 +158,7 @@ class _HomePageState extends State<HomePage> {
     print(tutorList.length);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Home", style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: ListView(
         children: [
@@ -166,7 +169,7 @@ class _HomePageState extends State<HomePage> {
               : Container(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   height: 150,
-                  color: Colors.blueAccent,
+                  color: myPurple,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

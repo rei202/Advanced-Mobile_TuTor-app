@@ -2,9 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:intl/intl.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
+import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/models/Booking.dart';
 import 'package:lettutor/screens/MeetingScreen/MeetingScreen.dart';
+import 'package:lettutor/screens/Widget/CountdownTimeText.dart';
+import 'package:lettutor/utils/OverlayWidget.dart';
 import 'package:lettutor/utils/Time.dart';
 
 class BannerComponent extends StatefulWidget {
@@ -24,20 +29,29 @@ class _BannerComponentState extends State<BannerComponent> {
   // Default placeholder text.
   String schedule = 'Sat, 11 Mar 23 14:00 - 14:25';
   String totalTime = 'Total lesson time is 300 hours 25 minutes';
-
+  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+  bool isLessonEnding = false;
   @override
   void initState() {
     // TODO: implement initState
     print(widget.upComingLession.scheduleDetailInfo?.startPeriodTimestamp);
+    // endTime = widget.upComingLession.scheduleDetailInfo!.startPeriodTimestamp;
     super.initState();
+  }
+
+  void onEnd() {
+    print('onEnd');
+    setState(() {
+        isLessonEnding = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return (Container(
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        height: 150,
-        color: Colors.blueAccent,
+        height: 200,
+        color: myPurple,
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Text(
@@ -63,26 +77,26 @@ class _BannerComponentState extends State<BannerComponent> {
               fontWeight: FontWeight.w500
             ),
           ),
+              // Row( mainAxisAlignment: MainAxisAlignment.center,children: [
+              //   !isLessonEnding ? Text("Starts in ", style: TextStyle(color: Colors.white),) : Container(),
+              //   CountdownTimerText(timestamp: widget.upComingLession.scheduleDetailInfo!.startPeriodTimestamp)
+              //   // CountdownTimer(
+              //   //   endTime: endTime,
+              //   //   onEnd: onEnd,
+              //   //   textStyle: TextStyle(color: Colors.white),
+              //   //
+              //   //   endWidget: Text("The lesson has expired", style: TextStyle(color: Colors.white),),
+              //   //
+              //   // ),
+              // ],),
+
           Container(
               child: ElevatedButton(
                   onPressed: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MeetingScreen()));
-                    // var options = JitsiMeetingOptions(
-                    //     room:
-                    //         "myroom") // room is Required, spaces will be trimmed
-                    //   ..serverURL = "https://meet.lettutor.com"
-                    //   ..subject = "Meeting with Gunschu"
-                    //   ..userDisplayName = "My Name"
-                    //   ..userEmail = "myemail@email.com"
-                    //   ..audioOnly = true
-                    //   ..audioMuted = true
-                    //   ..token = "213213213213"
-                    //   ..videoMuted = true;
-                    //
-                    // await JitsiMeet.joinMeeting(options);
+
+                    JitsiMeetingOptions options = JitsiMeetingOptions(roomNameOrUrl:'${widget.upComingLession.userId}-${widget.upComingLession.scheduleDetailInfo!.scheduleInfo!.tutorInfo!.userId}', serverUrl: "https://meet.lettutor.com/", token: widget.upComingLession.studentMeetingLink.split('token=')[1]);
+                    await JitsiMeetWrapper.joinMeeting( options: options);
+
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -95,7 +109,7 @@ class _BannerComponentState extends State<BannerComponent> {
                   ),
                   child: Text(
                     "Enter lesson room",
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: myPurple),
                   ))),
           Text(
               "Total lesson time is ${TimeUtil.formatMinuteToHourCount(widget.totalLessonTime)}",

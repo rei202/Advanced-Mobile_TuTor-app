@@ -66,7 +66,7 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("History"),
+          title: Text("History", style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         body: Container(
             padding: EdgeInsets.only(top: 30, left: 10, right: 10),

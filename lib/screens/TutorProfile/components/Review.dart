@@ -58,7 +58,7 @@ class _ReviewState extends State<Review> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Review"),
+          title: Text("Review", style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         body: ListView.builder(
             controller: _scrollController,

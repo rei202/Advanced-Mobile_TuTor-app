@@ -103,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         child: TextField(
                           controller: passwordController,
+                          obscureText: true,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(10),
                             border: OutlineInputBorder(),
@@ -117,7 +118,8 @@ class _LoginPageState extends State<LoginPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const ForgotPasswordPage()),
+                                      builder: (context) =>
+                                          const ForgotPasswordPage()),
                                 );
                               },
                               child: Text(
