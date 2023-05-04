@@ -1,6 +1,6 @@
 Milestone 2
 
-- Link video demo:
+- Link video demo: https://youtu.be/5BgJR2UtnrA
 
 - Lưu ý cho chức năng chatgpt:
       Ở phần chatgpt yêu cầu một token của chatGPT, tuy nhiên token đó khi public lên github sẽ bị crawl
