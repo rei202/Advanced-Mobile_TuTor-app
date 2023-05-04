@@ -154,6 +154,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  bool checkFavorite(Tutor tutor, List<FavoriteTutor> favoriteList) {
+    if (favoriteList.any((element) => element.userId == tutor.userId)) {
+      return true;
+    }
+    else
+      return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     print(tutorList.length);
@@ -317,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                   if (index < tutorList.length)
                     return TutorInfoCard(
                       tutor: tutorList[index],
-                      favoriteList: favoriteList,
+                      isFavorite: checkFavorite(tutorList[index], favoriteList),
                     );
                   else
                     return Padding(

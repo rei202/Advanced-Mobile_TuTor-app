@@ -12,10 +12,10 @@ import '../../../models/Tutor.dart';
 
 class TutorInfoCard extends StatefulWidget {
   const TutorInfoCard(
-      {super.key, required this.tutor, required this.favoriteList});
+      {super.key, required this.tutor, required this.isFavorite});
 
   final Tutor tutor;
-  final List<FavoriteTutor> favoriteList;
+  final bool isFavorite;
 
   @override
   State<StatefulWidget> createState() => _TutorInfoCardState();
@@ -25,15 +25,8 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
   // Default placeholder text.
   String description =
       "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.";
-  late bool isFavorite = false;
 
-  void checkFavorite(Tutor tutor, List<FavoriteTutor> favoriteList) {
-    if (favoriteList.any((element) => element.userId == tutor.userId)) {
-      setState(() {
-        isFavorite = true;
-      });
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +34,6 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
     description = widget.tutor.bio.toString();
     String image = widget.tutor.avatar ??
         "https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg";
-    checkFavorite(widget.tutor, widget.favoriteList);
     return (GestureDetector(
         onTap: () {
           Navigator.push(
@@ -116,10 +108,10 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                             Spacer(),
                             IconButton(
                               icon: Icon(
-                                isFavorite
+                                widget.isFavorite
                                     ? Icons.favorite
                                     : Icons.favorite_border,
-                                color: isFavorite ? Colors.red : Colors.black38,
+                                color: widget.isFavorite ? Colors.red : Colors.black38,
                               ),
                               onPressed: () {},
                             ),
