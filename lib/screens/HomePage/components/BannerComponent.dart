@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
+import 'package:lettutor/env/env.dart';
 import 'package:lettutor/models/Booking.dart';
 import 'package:lettutor/screens/MeetingScreen/MeetingScreen.dart';
 import 'package:lettutor/screens/Widget/CountdownTimeText.dart';
@@ -94,7 +95,7 @@ class _BannerComponentState extends State<BannerComponent> {
               child: ElevatedButton(
                   onPressed: () async {
 
-                    JitsiMeetingOptions options = JitsiMeetingOptions(roomNameOrUrl:'${widget.upComingLession.userId}-${widget.upComingLession.scheduleDetailInfo!.scheduleInfo!.tutorInfo!.userId}', serverUrl: "https://meet.lettutor.com/", token: widget.upComingLession.studentMeetingLink.split('token=')[1]);
+                    JitsiMeetingOptions options = JitsiMeetingOptions(roomNameOrUrl:'${widget.upComingLession.userId}-${widget.upComingLession.scheduleDetailInfo!.scheduleInfo!.tutorInfo!.userId}', serverUrl: jitsiServerUrl, token: widget.upComingLession.studentMeetingLink.split('token=')[1]);
                     await JitsiMeetWrapper.joinMeeting( options: options);
 
                   },
