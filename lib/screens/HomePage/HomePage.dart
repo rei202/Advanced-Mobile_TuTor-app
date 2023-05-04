@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
@@ -158,7 +159,7 @@ class _HomePageState extends State<HomePage> {
     print(tutorList.length);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home", style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text("Home".tr(), style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: ListView(
         children: [
@@ -191,7 +192,7 @@ class _HomePageState extends State<HomePage> {
           Container(
               padding: EdgeInsets.only(left: 20, right: 20, top: 20),
               child: OutlineSearchBar(
-                hintText: "Search course",
+                hintText: "Search".tr(),
                 debounceDelay: 1000,
                 onTypingFinished: (text) {
                   print(text);
@@ -249,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Tutors",
+                    "Tutors".tr(),
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,

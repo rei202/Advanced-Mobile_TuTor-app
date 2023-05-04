@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
@@ -76,7 +77,7 @@ class _CourseDetailState extends State<CourseDetail>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Course Detail', style: TextStyle(fontWeight: FontWeight.bold)),
+          title: const Text('Course Detail', style: TextStyle(fontWeight: FontWeight.bold)).tr(),
         ),
         body: FutureBuilder<CourseModel?>(
             future: _courseFuture,
@@ -136,7 +137,7 @@ class _CourseDetailState extends State<CourseDetail>
                                 },
                               ),
                             ),
-                            child: Text("Discover"),
+                            child: Text("Discover").tr(),
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -161,7 +162,7 @@ class _CourseDetailState extends State<CourseDetail>
                                     height: 36,
                                   )),
                               Text(
-                                "Overview",
+                                "Overview".tr(),
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ),
@@ -186,7 +187,7 @@ class _CourseDetailState extends State<CourseDetail>
                                         color: Colors.red,
                                       ),
                                       Text(
-                                        "Why take this course",
+                                        "Why take this course".tr(),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -205,7 +206,7 @@ class _CourseDetailState extends State<CourseDetail>
                                         Icons.question_mark_sharp,
                                         color: Colors.red,
                                       ),
-                                      Text("What will you able to do",
+                                      Text("What will you able to do".tr(),
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
@@ -228,7 +229,7 @@ class _CourseDetailState extends State<CourseDetail>
                                     height: 36,
                                   )),
                               Text(
-                                "Experience Level",
+                                "Experience Level".tr(),
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ),
@@ -272,7 +273,7 @@ class _CourseDetailState extends State<CourseDetail>
                                     height: 36,
                                   )),
                               Text(
-                                "Course Length",
+                                "Course Length".tr(),
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ),
@@ -316,7 +317,7 @@ class _CourseDetailState extends State<CourseDetail>
                                     height: 36,
                                   )),
                               Text(
-                                "List Topics",
+                                "List Topics".tr(),
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ),

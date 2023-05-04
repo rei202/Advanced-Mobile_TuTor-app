@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/Course/Course.dart';
 import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
@@ -5,6 +6,7 @@ import 'package:lettutor/screens/History/History.dart';
 import 'package:lettutor/screens/HomePage/HomePage.dart';
 import 'package:lettutor/screens/LessonDetail/LessonDetail.dart';
 import 'package:lettutor/screens/LoginPage.dart';
+import 'package:lettutor/screens/Setting/Setting.dart';
 import 'package:lettutor/screens/StudyingSchedule/StudyingSchedule.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
 
@@ -35,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
       const Course(),
       const StudyingSchedule(),
       const History(),
+      const Setting()
     ];
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -48,6 +51,8 @@ class _MainScreenState extends State<MainScreen> {
           '/course': (context) => const Course(),
           '/schedule': (context) => const StudyingSchedule(),
           '/history': (context) => const History(),
+          '/Setting': (context) => const Setting(),
+
         },
         theme: ThemeData(
           colorSchemeSeed: const Color(0xff6750a4), useMaterial3: true,
@@ -71,14 +76,16 @@ class _MainScreenState extends State<MainScreen> {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
-                label: "Home",
+                label: "Home".tr(),
               ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.book_outlined), label: "Course"),
+                  icon: Icon(Icons.book_outlined), label: "Course".tr()),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_month), label: "Schedule"),
+                  icon: Icon(Icons.calendar_month), label: "Schedule".tr()),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.history_outlined), label: "History"),
+                  icon: Icon(Icons.history_outlined), label: "History".tr()),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings), label: "Setting".tr()),
             ],
             onTap: (index) {
               setState(() {

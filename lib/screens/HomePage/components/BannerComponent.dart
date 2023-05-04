@@ -1,8 +1,8 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:intl/intl.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
@@ -55,7 +55,7 @@ class _BannerComponentState extends State<BannerComponent> {
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Text(
-            "Upcomming Lesson",
+            "Upcomming Lesson".tr(),
             style: TextStyle(
               fontSize: 20,
               color: Colors.white,
@@ -108,7 +108,7 @@ class _BannerComponentState extends State<BannerComponent> {
                     ),
                   ),
                   child: Text(
-                    "Enter lesson room",
+                    "Enter lesson room".tr(),
                     style: TextStyle(color: myPurple),
                   ))),
           Text(

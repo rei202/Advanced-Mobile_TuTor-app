@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
@@ -80,7 +81,7 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Schedule", style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text("Schedule", style: TextStyle(fontWeight: FontWeight.bold)).tr(),
         ),
         body: Container(
             padding: EdgeInsets.only(top: 30, left: 10, right: 10),

@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lettutor/screens/Course/Course.dart';
 import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
@@ -14,7 +16,13 @@ import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
 
 Future<void> main() async {
   await GetStorage.init();
-  runApp(const MyHomePage());
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+    child: ProviderScope(child: const MyHomePage()),
+    supportedLocales: [Locale('en', 'US'), Locale('vi', 'VN')],
+    path: 'assets/translations', // <-- change the path of the translation files
+  ));
 }
 
 class MyHomePage extends StatefulWidget {
@@ -38,8 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         home: LoginPage());
   }
 }

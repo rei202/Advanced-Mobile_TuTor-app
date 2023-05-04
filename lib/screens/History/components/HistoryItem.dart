@@ -1,4 +1,3 @@
-import 'package:country_flags/country_flags.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

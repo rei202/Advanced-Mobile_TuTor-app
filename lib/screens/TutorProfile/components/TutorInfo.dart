@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -187,7 +188,7 @@ class _TutorInfoState extends State<TutorInfo> {
                         ),
                       ),
                       child: Text(
-                        "Book",
+                        "Book".tr(),
                         style: TextStyle(color: Colors.white),
                       )))
               : Row(mainAxisAlignment: MainAxisAlignment.center,children: [
@@ -220,7 +221,7 @@ class _TutorInfoState extends State<TutorInfo> {
                             Icons.star_border_outlined,
                           )),
                       Text(
-                        "Review",
+                        "Review".tr(),
                         style: TextStyle(fontSize: 12),
                       )
                     ]),
@@ -235,7 +236,7 @@ class _TutorInfoState extends State<TutorInfo> {
                                       builder: (BuildContext context,
                                               StateSetter setState) =>
                                           AlertDialog(
-                                            title: const Text('Report tutor'),
+                                            title:  const Text('Report tutor'),
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: <Widget>[
@@ -356,7 +357,7 @@ class _TutorInfoState extends State<TutorInfo> {
                           ),
                         ),
                         Text(
-                          "Report",
+                          "Report".tr(),
                           style: TextStyle(fontSize: 12),
                         )
                       ],
@@ -370,7 +371,7 @@ class _TutorInfoState extends State<TutorInfo> {
           Container(
             margin: EdgeInsets.only(bottom: 15, top: 15),
             child: Text(
-              "Languages",
+              "Languages".tr(),
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
           ),
@@ -396,7 +397,7 @@ class _TutorInfoState extends State<TutorInfo> {
           Container(
             margin: EdgeInsets.only(bottom: 15),
             child: Text(
-              "Speciaties",
+              "Speciaties".tr(),
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
           ),
@@ -423,7 +424,7 @@ class _TutorInfoState extends State<TutorInfo> {
           Container(
             margin: EdgeInsets.only(bottom: 15),
             child: Text(
-              "Interests",
+              "Interests".tr(),
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
           ),
@@ -440,7 +441,7 @@ class _TutorInfoState extends State<TutorInfo> {
               bottom: 15,
             ),
             child: Text(
-              "Teaching Experience",
+              "Teaching Experience".tr(),
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
           ),
@@ -457,7 +458,7 @@ class _TutorInfoState extends State<TutorInfo> {
               bottom: 5,
             ),
             child: Text(
-              "Schedule",
+              "Schedule".tr(),
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
           ),

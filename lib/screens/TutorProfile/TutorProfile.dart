@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
@@ -101,7 +102,7 @@ class _TutorProfileState extends State<TutorProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tutor Profile",  style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text("Tutor Profile".tr(),  style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: ListView(
         children: [
