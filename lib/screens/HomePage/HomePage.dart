@@ -281,22 +281,13 @@ class _HomePageState extends State<HomePage> {
                           tutorList = temp;
                         } else if (newValue == "None") {
                           tutorList = List.of(originalTutorList);
+                          isSearching = false;
+
                         } else {
                           List<Tutor> temp = List.of(tutorList);
-                          temp.sort((a, b) {
-                            bool aIsFavorite = favoriteList
-                                .any((element) => element.userId == a.userId);
-                            bool bIsFavorite = favoriteList
-                                .any((element) => element.userId == b.userId);
-                            if (aIsFavorite && !bIsFavorite) {
-                              return -1;
-                            } else if (!aIsFavorite && bIsFavorite) {
-                              return 1;
-                            } else {
-                              return a.name!.compareTo(b.name!);
-                            }
-                          });
-                          tutorList = temp;
+                          tutorList = temp.where((tutor) => favoriteList
+                              .any((element) => element.userId == tutor.userId)).toList();
+                          isSearching = true;
                         }
                       });
                     },
@@ -330,7 +321,7 @@ class _HomePageState extends State<HomePage> {
                   else
                     return Padding(
                         padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: CircularProgressIndicator()));
+                        child: !isSearching ? Center(child: CircularProgressIndicator()): Container());
 
                 }),
           )

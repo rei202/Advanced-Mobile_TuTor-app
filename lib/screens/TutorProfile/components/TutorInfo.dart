@@ -9,6 +9,8 @@ import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/screens/TutorProfile/components/Review.dart';
 import 'package:lettutor/services/tutorService.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../models/MyAppointment.dart';
 import '../../HomePage/components/SkillTag.dart';
@@ -157,10 +159,34 @@ class _TutorInfoState extends State<TutorInfo> {
                     var response = await TutorService.addTutortoFavorite(
                         widget.tutor.userId!);
                     if (response) {
-                      setState(() {
-                        isFavorite = !isFavorite;
-                      });
+
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          CustomSnackBar.success(
+                            message: "Tutor was added in favorite list",
+                            maxLines: 2,
+                          ),
+                          displayDuration:
+                          const Duration(milliseconds: 500),
+                          animationDuration:
+                          const Duration(milliseconds: 1000)
+                      );
                     }
+                    else{
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          CustomSnackBar.success(
+                            message: "Tutor was removed in favorite list",
+                            maxLines: 2,
+                          ),
+                          displayDuration:
+                          const Duration(milliseconds: 500),
+                          animationDuration:
+                          const Duration(milliseconds: 1000));
+                    }
+                    setState(() {
+                      isFavorite = !isFavorite;
+                    });
                   },
                 ),
               ],

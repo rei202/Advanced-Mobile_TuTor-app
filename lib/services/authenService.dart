@@ -18,7 +18,9 @@ class AuthenService {
     try {
       var url = Uri.https(baseUrl!, 'auth/register');
       var response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
+          headers:  {'Content-Type': 'application/json',
+            'origin': 'https://sandbox.app.lettutor.com',
+            'referer': 'https://sandbox.app.lettutor.com/'},
           body: json.encode({
             'name': name,
             'email': email,
@@ -73,7 +75,9 @@ class AuthenService {
     try {
       var url = Uri.https(baseUrl, 'user/forgotPassword');
       var response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'application/json',
+          'origin': 'https://sandbox.app.lettutor.com',
+          'referer': 'https://sandbox.app.lettutor.com/'},
           body: json.encode({
             'email': email,
           }));

@@ -7,8 +7,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/models/FavoriteTutor.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../models/Tutor.dart';
+import '../../../services/tutorService.dart';
 
 class TutorInfoCard extends StatefulWidget {
   const TutorInfoCard(
@@ -25,8 +28,14 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
   // Default placeholder text.
   String description =
       "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.";
+  late bool isFavorite;
 
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isFavorite = widget.isFavorite;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,12 +117,44 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                             Spacer(),
                             IconButton(
                               icon: Icon(
-                                widget.isFavorite
+                                isFavorite
                                     ? Icons.favorite
                                     : Icons.favorite_border,
-                                color: widget.isFavorite ? Colors.red : Colors.black38,
+                                color: isFavorite ? Colors.red : Colors.black38,
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                var response = await TutorService.addTutortoFavorite(
+                                    widget.tutor.userId!);
+                                if (response) {
+
+                                  showTopSnackBar(
+                                      Overlay.of(context),
+                                      CustomSnackBar.success(
+                                        message: "Tutor was added in favorite list",
+                                        maxLines: 2,
+                                      ),
+                                      displayDuration:
+                                      const Duration(milliseconds: 500),
+                                      animationDuration:
+                                      const Duration(milliseconds: 1000)
+                                  );
+                                }
+                                else{
+                                  showTopSnackBar(
+                                      Overlay.of(context),
+                                      CustomSnackBar.success(
+                                        message: "Tutor was removed in favorite list",
+                                        maxLines: 2,
+                                      ),
+                                      displayDuration:
+                                      const Duration(milliseconds: 500),
+                                      animationDuration:
+                                      const Duration(milliseconds: 1000));
+                                }
+                                setState(() {
+                                  isFavorite = !isFavorite;
+                                });
+                              },
                             ),
                           ],
                           crossAxisAlignment: CrossAxisAlignment.start,

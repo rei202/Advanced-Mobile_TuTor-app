@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/services/authenService.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../models/User.dart';
 
@@ -86,16 +88,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   emailController.text);
                               print(response);
                               if (response['isSuccess'] == true) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: const Text(
-                                      "Email send success!",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 16),
+                                showTopSnackBar(
+                                    Overlay.of(context),
+                                    CustomSnackBar.success(
+                                      message: "Successful",
+                                      maxLines: 2,
                                     ),
-                                    backgroundColor: Colors.green,
-                                  ),
+                                    displayDuration:
+                                    const Duration(milliseconds: 500),
+                                    animationDuration:
+                                    const Duration(milliseconds: 1000)
                                 );
+                              }
+                              else{
+                                showTopSnackBar(
+                                    Overlay.of(context),
+                                    CustomSnackBar.error(
+                                      message:
+                                      "Your email does not exist",
+                                      maxLines: 2,
+                                    ),
+                                    displayDuration:
+                                    const Duration(milliseconds: 500));
                               }
                             },
                             child: const Text('SEND'),

@@ -4,7 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/services/authenService.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../env/env.dart';
 import '../models/User.dart';
 
 class SignupPage extends StatefulWidget {
@@ -17,6 +20,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   // Default placeholder text.
   String textToShow = 'I Like Flutter';
+  final formField = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController fullnameContrller = TextEditingController();
@@ -47,183 +51,210 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 17, left: 25, right: 25),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.only(bottom: 8, top: 8),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "FULL NAME  ",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
+                child: Form(
+                  key: formField,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(bottom: 8, top: 8),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "FULL NAME  ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            )),
+                        Container(
+                          child: TextFormField(
+                            controller: fullnameContrller,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(10),
+                              border: OutlineInputBorder(),
                             ),
-                          )),
-                      Container(
-                        child: TextField(
-                          controller: fullnameContrller,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10),
-                            border: OutlineInputBorder(),
                           ),
                         ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(bottom: 8, top: 8),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "EMAIL  ",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
+                        Container(
+                            padding: EdgeInsets.only(bottom: 8, top: 8),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "EMAIL  ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            )),
+                        Container(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Email shouldn't be empty";
+                              }
+                              bool emailValid =
+                                  RegExp(validateRegex).hasMatch(value);
+                              if (!emailValid) return "Enter valid email";
+                            },
+                            controller: emailController,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(10),
+                              border: OutlineInputBorder(),
                             ),
-                          )),
-                      Container(
-                        child: TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10),
-                            border: OutlineInputBorder(),
                           ),
                         ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(bottom: 8, top: 8),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "PASSWORD  ",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          )),
-                      Container(
-                        child: TextField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10),
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(bottom: 8, top: 8),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "CONFIRM PASSWORD  ",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          )),
-                      Container(
-                        child: TextField(
-                          controller: confirmPasswordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10),
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 16, bottom: 8),
-                        alignment: Alignment.topLeft,
-                      ),
-                      Container(
-                          height: 40,
-                          constraints:
-                              BoxConstraints(minWidth: double.infinity),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (passwordController.text
-                                  .endsWith(confirmPasswordController.text)) {
-                                var response = await AuthenService.register(
-                                    fullnameContrller.text,
-                                    emailController.text,
-                                    passwordController.text);
-                                print(response);
-                                if (response['isSuccess'] == true) {
-                                  showSuccessfulAlert();
-                                  Future.delayed(Duration(seconds: 2), () {
-                                    Navigator.pop(context);
-                                  });
-                                } else {
-                                  showFailedAlert();
-                                }
+                        Container(
+                            padding: EdgeInsets.only(bottom: 8, top: 8),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "PASSWORD  ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            )),
+                        Container(
+                          child: TextFormField(
+                            controller: passwordController,
+                            obscureText: true,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Password shouldn't be empty";
+                              } else if (passwordController.text.length < 6) {
+                                return "Password should be more than 6 characters";
                               }
                             },
-                            child: const Text('REGISTER'),
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(top: 24, bottom: 24),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Or continue with",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(10),
+                              border: OutlineInputBorder(),
                             ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(bottom: 24),
-                          alignment: Alignment.center,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 65,
-                                  child: IconButton(
-                                    icon: Image.asset("images/fb-icon.png"),
-                                    onPressed: () {},
+                          ),
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(bottom: 8, top: 8),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "CONFIRM PASSWORD  ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            )),
+                        Container(
+                          child: TextFormField(
+                            controller: confirmPasswordController,
+                            obscureText: true,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Confirm password shouldn't be empty";
+                              } else if (!(value == passwordController.text)) {
+                                return "Password's not match";
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(10),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 16, bottom: 8),
+                          alignment: Alignment.topLeft,
+                        ),
+                        Container(
+                            height: 40,
+                            constraints:
+                                BoxConstraints(minWidth: double.infinity),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                bool isValid =
+                                    formField.currentState!.validate();
+                                if (isValid) {
+                                  var response = await AuthenService.register(
+                                      fullnameContrller.text,
+                                      emailController.text,
+                                      passwordController.text);
+                                  print(response);
+                                  if (response['isSuccess'] == true) {
+                                    showSuccessfulAlert();
+                                    Future.delayed(Duration(seconds: 2), () {
+                                      Navigator.pop(context);
+                                    });
+                                  } else {
+                                    showFailedAlert();
+                                  }
+                                }
+                              },
+                              child: const Text('REGISTER'),
+                            )),
+                        Container(
+                            margin: EdgeInsets.only(top: 24, bottom: 24),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Or continue with",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            )),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 24),
+                            alignment: Alignment.center,
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 65,
+                                    child: IconButton(
+                                      icon: Image.asset("images/fb-icon.png"),
+                                      onPressed: () {},
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  width: 65,
-                                  child: IconButton(
-                                    icon: Image.asset("images/google-icon.png"),
-                                    onPressed: () {},
+                                  Container(
+                                    width: 65,
+                                    child: IconButton(
+                                      icon:
+                                          Image.asset("images/google-icon.png"),
+                                      onPressed: () {},
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  width: 65,
-                                  child: IconButton(
-                                    icon: Image.asset("images/device-icon.png"),
-                                    onPressed: () {},
-                                  ),
-                                )
-                              ])),
-                    ]),
+                                  Container(
+                                    width: 65,
+                                    child: IconButton(
+                                      icon:
+                                          Image.asset("images/device-icon.png"),
+                                      onPressed: () {},
+                                    ),
+                                  )
+                                ])),
+                      ]),
+                ),
               ),
             ])));
   }
 
   void showFailedAlert() {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text(
-        "Signup Failed",
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16),
-      ),
-      backgroundColor: Colors.red,
-    ));
+    showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.error(
+          message: "Signup Failed",
+          maxLines: 2,
+        ),
+        displayDuration: const Duration(milliseconds: 500));
   }
 
   void showSuccessfulAlert() {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text(
-        'Signup successfully',
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16),
-      ),
-      backgroundColor: Colors.green,
-    ));
+    showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.success(
+          message: 'Signup successfully',
+          maxLines: 2,
+        ),
+        displayDuration: const Duration(milliseconds: 500),
+        animationDuration: const Duration(milliseconds: 1000));
   }
 }

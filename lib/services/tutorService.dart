@@ -45,37 +45,39 @@ class TutorService {
       return null;
     }
   }
-  static Future<List<FeedBack>?> getReview(int page, int perPage, String userId) async {
-  List<FeedBack> feedbackList = <FeedBack>[];
 
-  try {
-  final box = GetStorage();
-  String? token = await box.read('token');
-  // print("token: " + token!);
-  var url = Uri.https(baseUrl, 'feedback/v2/${userId}', {
-  'perPage': '$perPage',
-  'page': '$page',
-  });
-  var response = await http.get(
-  url,
-  headers: {
-  'Content-Type': 'application/json',
-  'Authorization': 'Bearer $token'
-  },
-  );
-  if (response.statusCode == 200) {
-  var feedbacks = jsonDecode(response.body)['data']['rows'];
-  for (var feedback in feedbacks) {
-    feedbackList.add(FeedBack.fromJson(feedback));
-  }
-  print(page);
-  return feedbackList;
-  } else {
-  return null;
-  }
-  } on Error catch (_) {
-  return null;
-  }
+  static Future<List<FeedBack>?> getReview(
+      int page, int perPage, String userId) async {
+    List<FeedBack> feedbackList = <FeedBack>[];
+
+    try {
+      final box = GetStorage();
+      String? token = await box.read('token');
+      // print("token: " + token!);
+      var url = Uri.https(baseUrl, 'feedback/v2/${userId}', {
+        'perPage': '$perPage',
+        'page': '$page',
+      });
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+      if (response.statusCode == 200) {
+        var feedbacks = jsonDecode(response.body)['data']['rows'];
+        for (var feedback in feedbacks) {
+          feedbackList.add(FeedBack.fromJson(feedback));
+        }
+        print(page);
+        return feedbackList;
+      } else {
+        return null;
+      }
+    } on Error catch (_) {
+      return null;
+    }
   }
 
   static Future<List<FavoriteTutor>?> getFavoriteTutorList(
@@ -204,8 +206,10 @@ class TutorService {
         },
         body: json.encode(body),
       );
-
+      print(response.body);
       if (response.statusCode == 200) {
+        final jsonRes = json.decode(response.body);
+        if (jsonRes["result"] == 1) return false;
         return true;
       } else {
         return false;
