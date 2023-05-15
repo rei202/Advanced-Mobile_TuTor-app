@@ -18,6 +18,7 @@ class StudyingSchedule extends StatefulWidget {
   State<StatefulWidget> createState() => _StudyingScheduleState();
 }
 
+
 class _StudyingScheduleState extends State<StudyingSchedule> {
   // Default placeholder text.
   String textToShow = 'I Like Flutter';
@@ -28,6 +29,8 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
   final ScrollController _scrollController = ScrollController();
   int perPage = 10;
   int totalLessonTime = 0;
+  bool isNoSchedule = false;
+
   // bool isInProgress = false;
 
   @override
@@ -43,12 +46,22 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
     });
   }
 
+  void parentFunction() {
+    print('Called parent function from child widget');
+// Gọi setState để reload widget cha
+    setState(() {});
+  }
+
   void initStudyingScheduleList(page, perPage) async {
     int timeStampNow = DateTime.now().millisecondsSinceEpoch;
     if (!isLoading) {
-      var temp =
-          await ClassService.getsortedBookingList(page, perPage, timeStampNow, "asc");
+      var temp = await ClassService.getsortedBookingList(
+          page, perPage, timeStampNow, "asc");
       setState(() {
+        if (temp!.isEmpty || temp!.length == 1)
+          isNoSchedule = true;
+        else
+          isNoSchedule = false;
         currentPage++;
         isLoading = true;
         bookingList.addAll(List.of(ScheduleUtils.groupScheduleItems(temp!)));
@@ -56,17 +69,24 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
     }
   }
 
-  void loadMoreStudyingScheduleList(page, perPage) async {
+  Future<void> loadMoreStudyingScheduleList(page, perPage) async {
     setState(() {
       // isInProgress = true;
     });
     int timeStampNow = DateTime.now().millisecondsSinceEpoch;
-    var temp =
-        await ClassService.getsortedBookingList(page, perPage, timeStampNow, "asc");
+    var temp = await ClassService.getsortedBookingList(
+        page, perPage, timeStampNow, "asc");
     setState(() {
+      if (temp!.isEmpty || temp!.length == 1)
+        isNoSchedule = true;
+      else
+        isNoSchedule = false;
       currentPage++;
-      bookingList.addAll(ScheduleUtils.groupScheduleItems(temp!));
-      // isInProgress = false;
+      if (page == 1)
+        bookingList = ScheduleUtils.groupScheduleItems(temp!);
+      else
+        bookingList.addAll(ScheduleUtils.groupScheduleItems(temp!));
+      print("reload schedule");
     });
   }
 
@@ -81,7 +101,8 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Schedule", style: TextStyle(fontWeight: FontWeight.bold)).tr(),
+          title: Text("Schedule", style: TextStyle(fontWeight: FontWeight.bold))
+              .tr(),
         ),
         body: Container(
             padding: EdgeInsets.only(top: 30, left: 10, right: 10),
@@ -89,7 +110,7 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
                 controller: _scrollController,
                 itemCount: bookingList.length + 2,
                 itemBuilder: (BuildContext context, int index) {
-                  if(index == 0)
+                  if (index == 0)
                     return Container(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       margin: EdgeInsets.only(bottom: 10),
@@ -106,11 +127,29 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
                     );
                   else if (index <= bookingList.length)
                     return BookedScheduleItem(
-                        groupBookingItem: bookingList[index - 1]);
+                      groupBookingItem: bookingList[index - 1],
+                      callback: parentFunction,
+                    );
                   else
                     return Padding(
                         padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: CircularProgressIndicator()));
+                        child: !isNoSchedule
+                            ? Center(child: CircularProgressIndicator())
+                            : Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset('images/empty-box.png',
+                                        width: 70, height: 70),
+                                    SizedBox(height: 5.0),
+                                    Text(
+                                      'No schedule',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ));
                 })));
   }
 }

@@ -73,8 +73,7 @@ class _SettingState extends State<Setting> {
                           MaterialPageRoute(
                               builder: (context) => Profile(
                                     myInfo: user,
-                                  ))).then(
-                        (value) {
+                                  ))).then((value) {
                           if (value) {
                             //refresh here
                             setState(() {

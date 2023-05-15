@@ -10,7 +10,8 @@ import '../../../models/Booking.dart';
 import '../../HomePage/components/SkillTag.dart';
 
 class BookedScheduleItem extends StatefulWidget {
-  const BookedScheduleItem({super.key, required this.groupBookingItem});
+  const BookedScheduleItem({super.key, required this.groupBookingItem, required this.callback});
+  final Function callback;
 
   final List<Booking> groupBookingItem;
 
@@ -57,11 +58,12 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
     );
     for (int i = 0; i < booking.length; i++) {
       sessionList.add(SessionItem(
+        scheduleDetailId: booking[i].id,
           sessionNumber: i.toString(),
           sessionTime:  DateFormat('HH:mm').format(
               DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.startPeriodTimestamp)) + ' - ' +  DateFormat('HH:mm').format(
               DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.endPeriodTimestamp)),
-          isBook: true));
+          isBook: DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.startPeriodTimestamp)).inHours < 2,context: this.context, callback: widget.callback,));
     }
   }
 

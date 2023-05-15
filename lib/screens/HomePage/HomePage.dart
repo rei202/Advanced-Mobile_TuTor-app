@@ -50,12 +50,19 @@ class _HomePageState extends State<HomePage> {
   int page = 1;
   int perPage = 10;
   int currentPage = 1;
+  int searchPage = 1;
+  int searchPerPage = 2;
+  int searchCurrentPage = 1;
   bool isLoading = false;
   String dropdownValue = 'None';
   int totalLessonTime = 0;
   List<Booking> bookingList = [];
   Booking? upComingLesson = null;
   bool isSearching = false;
+  bool isNoTutor = false;
+  bool favoriteMode = false;
+
+
   // bool isInProgress = true;
 
   void getTutorList(int page, int perPage) async {
@@ -109,6 +116,10 @@ class _HomePageState extends State<HomePage> {
     );
     List<Tutor>? list1 = resTutorList;
     setState(() {
+      if (list1!.isEmpty)
+        isNoTutor = true;
+      else
+        isNoTutor = false;
       currentPage++;
       originalTutorList.addAll(list1!);
       tutorList = List.of(originalTutorList);
@@ -127,8 +138,8 @@ class _HomePageState extends State<HomePage> {
       if (_scrollController.offset ==
           _scrollController.position.maxScrollExtent) {
         print(isSearching);
-        if(!isSearching)
-          loadMoreTutorList();
+        if (!isSearching && !favoriteMode) loadMoreTutorList();
+        else if(isSearching && !favoriteMode) loadMoreTutorSearchList();
       }
     });
   }
@@ -140,25 +151,51 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-
   Future<void> search(_filters, searchString, page, perPage) async {
     print(isSearching);
+    setState(() {
+      searchCurrentPage = 1;
+      favoriteMode = false;
+    });
     List<Tutor>? temp =
         await SearchService.search(_filters, searchString, page, perPage);
     setState(() {
       tutorList = List.of(temp!);
-      if(searchString.toString().isEmpty && _filters.isEmpty)
+      if (tutorList.isEmpty)
+        isNoTutor = true;
+      else
+        isNoTutor = false;
+      if (searchString.toString().isEmpty && _filters.isEmpty)
         isSearching = false;
       else
         isSearching = true;
     });
   }
 
+  void loadMoreTutorSearchList() async {
+    setState(() {
+      searchCurrentPage++;
+    });
+    List<Tutor>? temp = await SearchService.search(
+        _filters, searchString, searchCurrentPage, searchPerPage);
+    setState(() {
+      if (temp!.isEmpty)
+        isNoTutor = true;
+      else
+        isNoTutor = false;
+      tutorList.addAll(temp!);
+      if (searchString.toString().isEmpty && _filters.isEmpty)
+        isSearching = false;
+      else
+        isSearching = true;
+      // isInProgress = false;
+    });
+  }
+
   bool checkFavorite(Tutor tutor, List<FavoriteTutor> favoriteList) {
     if (favoriteList.any((element) => element.userId == tutor.userId)) {
       return true;
-    }
-    else
+    } else
       return false;
   }
 
@@ -167,7 +204,10 @@ class _HomePageState extends State<HomePage> {
     print(tutorList.length);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home".tr(), style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          "Home".tr(),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: ListView(
         children: [
@@ -204,10 +244,16 @@ class _HomePageState extends State<HomePage> {
                 debounceDelay: 1000,
                 onTypingFinished: (text) {
                   print(text);
-                  search(_filters, text ?? "", page, perPage);
+                  setState(() {
+                    searchString = text;
+                  });
+                  search(_filters, text ?? "", searchCurrentPage, searchPerPage);
                 },
                 onClearButtonPressed: (text) {
-                  search(_filters, "", page, perPage);
+                  setState(() {
+                    searchString = "";
+                  });
+                  search(_filters, "", searchCurrentPage, searchPerPage);
                 },
                 borderRadius: BorderRadius.all(const Radius.circular(10.0)),
               )),
@@ -237,7 +283,10 @@ class _HomePageState extends State<HomePage> {
                             return name == specialty;
                           });
                         }
-                        search(_filters, searchString, page, perPage);
+                        search(_filters, searchString, 1, 20);
+                        setState(() {
+                          isNoTutor = true;
+                        });
                         // tutorList = originalTutorList.where((tutor) {
                         //   return _filters.every((filter) =>
                         //       tutor.specialties?.contains(filter) ?? false);
@@ -275,18 +324,22 @@ class _HomePageState extends State<HomePage> {
                         dropdownValue = newValue!;
                         print(newValue);
                         if (newValue == "Rating") {
+                          favoriteMode = false;
                           List<Tutor> temp = List.of(tutorList);
                           temp.sort((a, b) =>
                               (b.rating ?? 0).compareTo(a.rating ?? 0));
                           tutorList = temp;
                         } else if (newValue == "None") {
+                          favoriteMode = false;
                           tutorList = List.of(originalTutorList);
                           isSearching = false;
-
                         } else {
+                          favoriteMode = true;
                           List<Tutor> temp = List.of(tutorList);
-                          tutorList = temp.where((tutor) => favoriteList
-                              .any((element) => element.userId == tutor.userId)).toList();
+                          tutorList = temp
+                              .where((tutor) => favoriteList.any(
+                                  (element) => element.userId == tutor.userId))
+                              .toList();
                           isSearching = true;
                         }
                       });
@@ -321,8 +374,23 @@ class _HomePageState extends State<HomePage> {
                   else
                     return Padding(
                         padding: EdgeInsets.symmetric(vertical: 32),
-                        child: !isSearching ? Center(child: CircularProgressIndicator()): Container());
-
+                        child: !isNoTutor && !favoriteMode
+                            ? Center(child: CircularProgressIndicator())
+                            : Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset('images/empty-box.png',
+                                        width: 70, height: 70),
+                                    SizedBox(height: 5.0),
+                                    Text(
+                                      'No tutor',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ));
                 }),
           )
         ],

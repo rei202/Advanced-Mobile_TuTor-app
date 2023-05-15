@@ -12,7 +12,7 @@ class SearchService {
   static Future<List<Tutor>?> search(
       List<String> filter, String searchString, int page, int perPage) async {
     List<Tutor> tutorList = <Tutor>[];
-
+    print("Search " + page.toString() + " " + perPage.toString());
     try {
       final box = GetStorage();
       String? token = await box.read('token');

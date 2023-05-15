@@ -14,6 +14,40 @@ import '../models/Feedback.dart';
 import '../models/TutorSchedule.dart';
 
 class ClassService {
+  static Future<Map<String, dynamic>> cancelBookingClass(
+      String scheduleId, int cancelReasonId, String note) async {
+    try {
+      final box = GetStorage();
+      String? token = await box.read('token');
+      final url = Uri.https(baseUrl, 'booking/schedule-detail');
+      final cancelInfo = {'cancelReasonId': cancelReasonId, 'note': note};
+      final body = {'scheduleDetailId': scheduleId, 'cancelInfo': cancelInfo};
+
+      final response = await http.delete(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: json.encode(body),
+      );
+
+      if (response.statusCode == 200) {
+        final jsonRes = json.decode(response.body);
+        final String message = jsonRes["message"];
+        return {'isSuccess': true, 'message': message};
+      } else {
+        final jsonRes = json.decode(response.body);
+        final String message = jsonRes["message"];
+        return {
+          'isSuccess': false,
+          'message': message,
+        };
+      }
+    } on Error catch (_) {
+      return {'isSuccess': false};
+    }
+  }
   static Future<Map<String, dynamic>> bookClass(
       String scheduleId, String notes) async {
     try {
