@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/services/authenService.dart';
+import 'package:lettutor/services/authenWithGoogle.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -190,47 +191,6 @@ class _SignupPageState extends State<SignupPage> {
                               },
                               child: const Text('REGISTER'),
                             )),
-                        Container(
-                            margin: EdgeInsets.only(top: 24, bottom: 24),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Or continue with",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 24),
-                            alignment: Alignment.center,
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 65,
-                                    child: IconButton(
-                                      icon: Image.asset("images/fb-icon.png"),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 65,
-                                    child: IconButton(
-                                      icon:
-                                          Image.asset("images/google-icon.png"),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 65,
-                                    child: IconButton(
-                                      icon:
-                                          Image.asset("images/device-icon.png"),
-                                      onPressed: () {},
-                                    ),
-                                  )
-                                ])),
                       ]),
                 ),
               ),

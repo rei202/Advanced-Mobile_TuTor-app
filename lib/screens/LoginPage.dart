@@ -6,6 +6,7 @@ import 'package:lettutor/screens/ForgotPassword.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/screens/SignupPage.dart';
 import 'package:lettutor/services/authenService.dart';
+import 'package:lettutor/services/authenWithGoogle.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                                 return "Email shouldn't be empty";
                               }
                               bool emailValid =
-                              RegExp(validateRegex).hasMatch(value);
+                                  RegExp(validateRegex).hasMatch(value);
                               if (!emailValid) return "Enter valid email";
                             },
                             decoration: InputDecoration(
@@ -124,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         Container(
-                          // margin: EdgeInsets.only(top: 16, bottom: 8),
+                            // margin: EdgeInsets.only(top: 16, bottom: 8),
                             alignment: Alignment.topLeft,
                             child: TextButton(
                                 onPressed: () {
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const ForgotPasswordPage()),
+                                            const ForgotPasswordPage()),
                                   );
                                 },
                                 child: Text(
@@ -146,11 +147,11 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                             height: 40,
                             constraints:
-                            BoxConstraints(minWidth: double.infinity),
+                                BoxConstraints(minWidth: double.infinity),
                             child: ElevatedButton(
                               onPressed: () async {
                                 bool isValid =
-                                formField.currentState!.validate();
+                                    formField.currentState!.validate();
                                 print("login " + isValid.toString());
                                 if (isValid) {
                                   var response = await AuthenService.login(User(
@@ -165,16 +166,15 @@ class _LoginPageState extends State<LoginPage> {
                                           maxLines: 2,
                                         ),
                                         displayDuration:
-                                        const Duration(milliseconds: 500),
+                                            const Duration(milliseconds: 500),
                                         animationDuration:
-                                        const Duration(milliseconds: 1000)
-                                    );
+                                            const Duration(milliseconds: 1000));
                                     Future.delayed(Duration(seconds: 2), () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                            const MainScreen()),
+                                                const MainScreen()),
                                       );
                                     });
                                   } else {
@@ -182,11 +182,11 @@ class _LoginPageState extends State<LoginPage> {
                                         Overlay.of(context),
                                         CustomSnackBar.error(
                                           message:
-                                          "Your email or password is incorrect",
+                                              "Your email or password is incorrect",
                                           maxLines: 2,
                                         ),
                                         displayDuration:
-                                        const Duration(milliseconds: 500));
+                                            const Duration(milliseconds: 500));
                                   }
                                 }
                               },
@@ -220,15 +220,49 @@ class _LoginPageState extends State<LoginPage> {
                                     width: 65,
                                     child: IconButton(
                                       icon:
-                                      Image.asset("images/google-icon.png"),
-                                      onPressed: () {},
+                                          Image.asset("images/google-icon.png"),
+                                      onPressed: () async {
+                                        var response =
+                                            await AuthGoogleService.signIn();
+                                        if (response['isSuccess'] == true) {
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              CustomSnackBar.success(
+                                                message: "Login successfully",
+                                                maxLines: 2,
+                                              ),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 500),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 1000));
+                                          Future.delayed(Duration(seconds: 2),
+                                              () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const MainScreen()),
+                                            );
+                                          });
+                                        } else {
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              CustomSnackBar.error(
+                                                message:
+                                                    "Login failed",
+                                                maxLines: 2,
+                                              ),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 500));
+                                        }
+                                      },
                                     ),
                                   ),
                                   Container(
                                     width: 65,
                                     child: IconButton(
                                       icon:
-                                      Image.asset("images/device-icon.png"),
+                                          Image.asset("images/device-icon.png"),
                                       onPressed: () {},
                                     ),
                                   )
@@ -253,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                              const SignupPage()),
+                                                  const SignupPage()),
                                         );
                                       },
                                       child: Text(
