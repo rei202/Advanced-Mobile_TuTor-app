@@ -39,6 +39,39 @@ class CourseService {
       return null;
     }
   }
+  static Future<List<CourseModel>?> searchCourse(int page, int size, String searchString) async {
+    List<CourseModel> courseList = <CourseModel>[];
+
+    try {
+      final box = GetStorage();
+      String? token = await box.read('token');
+      // print("token: " + token!);
+      var url = Uri.https(baseUrl, 'course', {
+        'size': '$size',
+        'page': '$page',
+        'q': '$searchString'
+      });
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+      print(page);
+      if (response.statusCode == 200) {
+        var courses = jsonDecode(response.body)['data']['rows'];
+        for (var course in courses) {
+          courseList.add(CourseModel.fromJson(course));
+        }
+        return courseList;
+      } else {
+        return null;
+      }
+    } on Error catch (_) {
+      return null;
+    }
+  }
   static Future<CourseModel?> getCourse(String courseId) async {
     try {
       final box = GetStorage();

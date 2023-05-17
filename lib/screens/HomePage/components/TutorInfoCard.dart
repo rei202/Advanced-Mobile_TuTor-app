@@ -15,8 +15,9 @@ import '../../../services/tutorService.dart';
 
 class TutorInfoCard extends StatefulWidget {
   const TutorInfoCard(
-      {super.key, required this.tutor, required this.isFavorite});
-
+      {required this.tutor, required this.isFavorite, required this.key})
+      : super(key: key);
+  final Key key;
   final Tutor tutor;
   final bool isFavorite;
 
@@ -46,7 +47,11 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
     return (GestureDetector(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => TutorProfile(tutorId: widget.tutor.userId, feedbacks: widget.tutor.feedbacks)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TutorProfile(
+                      tutorId: widget.tutor.userId,
+                      feedbacks: widget.tutor.feedbacks)));
         },
         child: Card(
             margin: EdgeInsets.only(bottom: 20),
@@ -123,33 +128,33 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                                 color: isFavorite ? Colors.red : Colors.black38,
                               ),
                               onPressed: () async {
-                                var response = await TutorService.addTutortoFavorite(
-                                    widget.tutor.userId!);
+                                var response =
+                                    await TutorService.addTutortoFavorite(
+                                        widget.tutor.userId!);
                                 if (response) {
-
                                   showTopSnackBar(
                                       Overlay.of(context),
                                       CustomSnackBar.success(
-                                        message: "Tutor was added in favorite list",
+                                        message:
+                                            "Tutor was added in favorite list",
                                         maxLines: 2,
                                       ),
                                       displayDuration:
-                                      const Duration(milliseconds: 500),
+                                          const Duration(milliseconds: 500),
                                       animationDuration:
-                                      const Duration(milliseconds: 1000)
-                                  );
-                                }
-                                else{
+                                          const Duration(milliseconds: 1000));
+                                } else {
                                   showTopSnackBar(
                                       Overlay.of(context),
                                       CustomSnackBar.success(
-                                        message: "Tutor was removed in favorite list",
+                                        message:
+                                            "Tutor was removed in favorite list",
                                         maxLines: 2,
                                       ),
                                       displayDuration:
-                                      const Duration(milliseconds: 500),
+                                          const Duration(milliseconds: 500),
                                       animationDuration:
-                                      const Duration(milliseconds: 1000));
+                                          const Duration(milliseconds: 1000));
                                 }
                                 setState(() {
                                   isFavorite = !isFavorite;
@@ -162,25 +167,27 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
                       ),
                       Row(children: [Text("")]),
                       Container(
-                        height: 40,
+                          height: 40,
                           child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        // căn chỉnh các widget con bên trái
-                        children: widget.tutor.specialties
-                                ?.split(",")
-                                .map((specialties) {
-                              return Padding(
-                                  padding: EdgeInsets.only(right: 5),
-                                  child: Chip(
-                                    // selectedColor: Colors.amberAccent,
-                                    label: Text(
-                                      specialties.toString().replaceAll("-", " "),
-                                      style: TextStyle(fontSize: 10),
-                                    ),
-                                  ));
-                            }).toList() ??
-                            [],
-                      )),
+                            scrollDirection: Axis.horizontal,
+                            // căn chỉnh các widget con bên trái
+                            children: widget.tutor.specialties
+                                    ?.split(",")
+                                    .map((specialties) {
+                                  return Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: Chip(
+                                        // selectedColor: Colors.amberAccent,
+                                        label: Text(
+                                          specialties
+                                              .toString()
+                                              .replaceAll("-", " "),
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ));
+                                }).toList() ??
+                                [],
+                          )),
                       Text(
                         description.length > 270
                             ? description.substring(0, 270) + '...'

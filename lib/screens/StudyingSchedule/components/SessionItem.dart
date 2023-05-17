@@ -10,7 +10,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../HomePage/components/SkillTag.dart';
 
-class SessionItem extends StatelessWidget {
+class SessionItem extends StatefulWidget {
   const SessionItem(
       {super.key,
       required this.sessionNumber,
@@ -28,43 +28,51 @@ class SessionItem extends StatelessWidget {
   final Function callback;
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController noteTextController = TextEditingController();
-    List<String> dropdownValues = [
-      "Reschedule at another time",
-      "Busy at that time",
-      "Asked by the tutor",
-      "Other"
-    ];
-    String? selectedValue = dropdownValues[0];
-    bool isReloadApi = false;
+  State<StatefulWidget> createState() => _SessionItemState();
+}
 
-    int checkSelectedValue(String selectedValue) {
-      switch (selectedValue) {
-        case "Reschedule at another time":
-          return 1;
-        case "Busy at that time":
-          return 2;
-        case "Asked by the tutor":
-          return 3;
-        case "Other":
-          return 4;
-        default:
-          return 0;
-      }
+class _SessionItemState extends State<SessionItem> {
+  final TextEditingController noteTextController = TextEditingController();
+  List<String> dropdownValues = [
+    "Reschedule at another time",
+    "Busy at that time",
+    "Asked by the tutor",
+    "Other"
+  ];
+  String? selectedValue = "Reschedule at another time";
+  bool isReloadApi = false;
+
+  int checkSelectedValue(String selectedValue) {
+    switch (selectedValue) {
+      case "Reschedule at another time":
+        return 1;
+      case "Busy at that time":
+        return 2;
+      case "Asked by the tutor":
+        return 3;
+      case "Other":
+        return 4;
+      default:
+        return 0;
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return (Container(
         padding: EdgeInsets.only(top: 10),
         child: Row(
           children: [
             Text(
-              "Session " + sessionNumber + " " + sessionTime,
+              "Session " + widget.sessionNumber + " " + widget.sessionTime,
               style: TextStyle(fontSize: 16),
             ),
             Spacer(),
-            isBook
+            widget.isBook
                 ? OutlinedButton.icon(
+                    // onPressed: () {
+                    //   callback(1, 10);
+                    // },
                     onPressed: () async {
                       showDialog<String>(
                           context: context,
@@ -136,13 +144,13 @@ class SessionItem extends StatelessWidget {
                                         onPressed: () async {
                                           var response = await ClassService
                                               .cancelBookingClass(
-                                                  scheduleDetailId,
+                                              widget.scheduleDetailId,
                                                   checkSelectedValue(
                                                       selectedValue!),
                                                   noteTextController.text);
 
                                           if (response["isSuccess"]) {
-                                            callback();
+                                            await widget.callback(1, 10);
                                             showTopSnackBar(
                                                 Overlay.of(context),
                                                 CustomSnackBar.success(

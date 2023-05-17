@@ -10,9 +10,13 @@ import '../../../models/Booking.dart';
 import '../../HomePage/components/SkillTag.dart';
 
 class BookedScheduleItem extends StatefulWidget {
-  const BookedScheduleItem({super.key, required this.groupBookingItem, required this.callback});
-  final Function callback;
+  const BookedScheduleItem({
+    required this.groupBookingItem,
+    required this.callback, required this.key,
+  }) : super(key: key);
 
+  final Function callback;
+  final Key key;
   final List<Booking> groupBookingItem;
 
   @override
@@ -33,37 +37,54 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
   bool active = false;
   String exTitle = "Sport Categories";
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    TutorInfo tutorInfo = widget.groupBookingItem[0].scheduleDetailInfo!.scheduleInfo!.tutorInfo!;
+    TutorInfo tutorInfo =
+        widget.groupBookingItem[0].scheduleDetailInfo!.scheduleInfo!.tutorInfo!;
     setState(() {
       name = tutorInfo.name!;
       toturNationality = tutorInfo.country!;
     });
-    List <Booking> booking = widget.groupBookingItem;
+    List<Booking> booking = widget.groupBookingItem;
     sessionList.add(
       Text(
-        booking.length == 1 ? DateFormat('HH:mm').format(
-          DateTime.fromMillisecondsSinceEpoch(booking[0].scheduleDetailInfo!.startPeriodTimestamp)) + ' - ' +  DateFormat('HH:mm').format(
-            DateTime.fromMillisecondsSinceEpoch(booking[0].scheduleDetailInfo!.endPeriodTimestamp))
-        :
-        "Lesson Time: " +  DateFormat('HH:mm').format(
-            DateTime.fromMillisecondsSinceEpoch(booking[0].scheduleDetailInfo!.startPeriodTimestamp)) + ' - ' + DateFormat('HH:mm').format(
-            DateTime.fromMillisecondsSinceEpoch(booking[booking.length - 1].scheduleDetailInfo!.endPeriodTimestamp)),
+        booking.length == 1
+            ? DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(
+                    booking[0].scheduleDetailInfo!.startPeriodTimestamp)) +
+                ' - ' +
+                DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(
+                    booking[0].scheduleDetailInfo!.endPeriodTimestamp))
+            : "Lesson Time: " +
+                DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(
+                    booking[0].scheduleDetailInfo!.startPeriodTimestamp)) +
+                ' - ' +
+                DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(
+                    booking[booking.length - 1]
+                        .scheduleDetailInfo!
+                        .endPeriodTimestamp)),
         style: TextStyle(fontSize: 20),
       ),
     );
     for (int i = 0; i < booking.length; i++) {
       sessionList.add(SessionItem(
         scheduleDetailId: booking[i].id,
-          sessionNumber: i.toString(),
-          sessionTime:  DateFormat('HH:mm').format(
-              DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.startPeriodTimestamp)) + ' - ' +  DateFormat('HH:mm').format(
-              DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.endPeriodTimestamp)),
-          isBook: DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(booking[i].scheduleDetailInfo!.startPeriodTimestamp)).inHours < 2,context: this.context, callback: widget.callback,));
+        sessionNumber: i.toString(),
+        sessionTime: DateFormat('HH:mm').format(
+                DateTime.fromMillisecondsSinceEpoch(
+                    booking[i].scheduleDetailInfo!.startPeriodTimestamp)) +
+            ' - ' +
+            DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(
+                booking[i].scheduleDetailInfo!.endPeriodTimestamp)),
+        isBook: DateTime.now()
+                .difference(DateTime.fromMillisecondsSinceEpoch(
+                    booking[i].scheduleDetailInfo!.startPeriodTimestamp))
+                .inHours <
+            2,
+        context: this.context,
+        callback: widget.callback,
+      ));
     }
   }
 
@@ -90,7 +111,8 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                 CircleAvatar(
                   radius: 35,
                   backgroundColor: Colors.brown.shade800,
-                  backgroundImage: NetworkImage(widget.groupBookingItem[0].scheduleDetailInfo!.scheduleInfo!.tutorInfo!.avatar!),
+                  backgroundImage: NetworkImage(widget.groupBookingItem[0]
+                      .scheduleDetailInfo!.scheduleInfo!.tutorInfo!.avatar!),
                 ),
                 Container(
                     height: 70,

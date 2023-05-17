@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
         await SearchService.search(_filters, searchString, page, perPage);
     setState(() {
       tutorList = List.of(temp!);
-      if (tutorList.isEmpty)
+      if (tutorList.isEmpty|| temp!.length == 1)
         isNoTutor = true;
       else
         isNoTutor = false;
@@ -178,6 +178,7 @@ class _HomePageState extends State<HomePage> {
     });
     List<Tutor>? temp = await SearchService.search(
         _filters, searchString, searchCurrentPage, searchPerPage);
+    print("load more search: l " + temp!.length.toString());
     setState(() {
       if (temp!.isEmpty)
         isNoTutor = true;
@@ -283,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                             return name == specialty;
                           });
                         }
-                        search(_filters, searchString, 1, 20);
+                        search(_filters, searchString, 1, searchPerPage);
                         setState(() {
                           isNoTutor = true;
                         });
@@ -369,7 +370,7 @@ class _HomePageState extends State<HomePage> {
                   if (index < tutorList.length)
                     return TutorInfoCard(
                       tutor: tutorList[index],
-                      isFavorite: checkFavorite(tutorList[index], favoriteList),
+                      isFavorite: checkFavorite(tutorList[index], favoriteList), key: ValueKey(tutorList[index].userId),
                     );
                   else
                     return Padding(

@@ -18,7 +18,6 @@ class StudyingSchedule extends StatefulWidget {
   State<StatefulWidget> createState() => _StudyingScheduleState();
 }
 
-
 class _StudyingScheduleState extends State<StudyingSchedule> {
   // Default placeholder text.
   String textToShow = 'I Like Flutter';
@@ -82,8 +81,10 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
       else
         isNoSchedule = false;
       currentPage++;
-      if (page == 1)
+      if (page == 1){
+        bookingList.clear();
         bookingList = ScheduleUtils.groupScheduleItems(temp!);
+      }
       else
         bookingList.addAll(ScheduleUtils.groupScheduleItems(temp!));
       print("reload schedule");
@@ -96,6 +97,8 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
       totalLessonTime = time;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +131,7 @@ class _StudyingScheduleState extends State<StudyingSchedule> {
                   else if (index <= bookingList.length)
                     return BookedScheduleItem(
                       groupBookingItem: bookingList[index - 1],
-                      callback: parentFunction,
+                      callback: loadMoreStudyingScheduleList, key: ValueKey(bookingList[index - 1][0].id),
                     );
                   else
                     return Padding(

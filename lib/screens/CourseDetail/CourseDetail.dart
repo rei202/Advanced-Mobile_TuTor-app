@@ -46,8 +46,8 @@ class _CourseDetailState extends State<CourseDetail>
       String titleTopic = i.toString() + ". " + topics[i -1].name;
       widgets.add(GestureDetector(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LessonDetail()));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => LessonDetail(courseModel: cou,)));
         },
         child: Card(
           color: myLightPurle,
@@ -142,7 +142,7 @@ class _CourseDetailState extends State<CourseDetail>
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LessonDetail()));
+                                      builder: (context) => LessonDetail(courseModel: course,)));
                             },
                           ),
                         ),
