@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/services/authenService.dart';
-import 'package:lettutor/services/authenWithGoogle.dart';
+import 'package:lettutor/services/authenWithSocialNetwork.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 

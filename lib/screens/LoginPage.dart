@@ -6,7 +6,7 @@ import 'package:lettutor/screens/ForgotPassword.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/screens/SignupPage.dart';
 import 'package:lettutor/services/authenService.dart';
-import 'package:lettutor/services/authenWithGoogle.dart';
+import 'package:lettutor/services/authenWithSocialNetwork.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -213,7 +213,41 @@ class _LoginPageState extends State<LoginPage> {
                                     width: 65,
                                     child: IconButton(
                                       icon: Image.asset("images/fb-icon.png"),
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        var response =
+                                            await AuthSocialService.signInWithFacebook();
+                                        if (response['isSuccess'] == true) {
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              CustomSnackBar.success(
+                                                message: "Login successfully",
+                                                maxLines: 2,
+                                              ),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 500),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 1000));
+                                          Future.delayed(Duration(seconds: 2),
+                                                  () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const MainScreen()),
+                                                );
+                                              });
+                                        } else {
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              CustomSnackBar.error(
+                                                message:
+                                                "Login failed",
+                                                maxLines: 2,
+                                              ),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 500));
+                                        }
+                                      },
                                     ),
                                   ),
                                   Container(
@@ -223,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                                           Image.asset("images/google-icon.png"),
                                       onPressed: () async {
                                         var response =
-                                            await AuthGoogleService.signIn();
+                                            await AuthSocialService.signInWithGoogle();
                                         if (response['isSuccess'] == true) {
                                           showTopSnackBar(
                                               Overlay.of(context),
