@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/models/UserInfo.dart';
 import 'package:lettutor/services/profileService.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/widgets.dart';
+
 
 class Profile extends StatefulWidget {
   const Profile({Key? key, required this.myInfo}) : super(key: key);
@@ -19,6 +25,7 @@ class _ProfileState extends State<Profile> {
   TextEditingController dob = TextEditingController();
   TextEditingController country = TextEditingController();
   TextEditingController level = TextEditingController();
+  File? _selectedImage;
 
   bool checkInput() {
     if ((name.text.isNotEmpty ||
@@ -29,6 +36,17 @@ class _ProfileState extends State<Profile> {
       return true;
     else
       return false;
+  }
+
+  Future<void> _pickImage() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+      });
+      await ProfileService.updateAvatar(File(pickedImage.path));
+    }
   }
 
   @override
@@ -52,9 +70,30 @@ class _ProfileState extends State<Profile> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CircleAvatar(
-                        radius: 45,
-                        backgroundImage: NetworkImage(widget.myInfo.avatar),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 45,
+                            backgroundImage: _selectedImage != null
+                                ? FileImage(_selectedImage!)
+                                : NetworkImage(widget.myInfo.avatar) as ImageProvider<Object>?,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: myPurple,
+                              child: IconButton(
+                                color: Colors.white,
+                                icon: Icon(Icons.edit, size: 15),
+                                onPressed: _pickImage,
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(widget.myInfo.name,
                           style: TextStyle(
