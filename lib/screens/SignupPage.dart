@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/services/authenService.dart';
@@ -27,7 +28,7 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController fullnameContrller = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   final Widget svg = SvgPicture.asset("images/lettutor_logo.91f91ade.svg",
-      semanticsLabel: 'Acme Logo');
+      semanticsLabel: 'Acme Logo', color: primaryMyColor,);
 
   void _updateText() {
     setState(() {

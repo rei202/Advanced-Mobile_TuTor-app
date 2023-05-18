@@ -313,7 +313,6 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 23,
-                      color: Colors.black,
                     ),
                   ),
                   DropdownButtonHideUnderline(

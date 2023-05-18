@@ -36,7 +36,6 @@ class ReviewItem extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.black,
                     ),
                   ),Spacer() ,Text(TimeUtil.formatTimeAgo(DateTime.parse(feedBack.createdAt)))],),
                   RatingBar.builder(
@@ -63,7 +62,6 @@ class ReviewItem extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.black,
                       ),
                       softWrap: true,
                     ),

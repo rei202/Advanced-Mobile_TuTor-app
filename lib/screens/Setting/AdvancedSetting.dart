@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lettutor/models/UserInfo.dart';
-import 'package:lettutor/services/profileService.dart';
+import 'package:lettutor/providers/theme.dart';
+import 'package:provider/provider.dart';
+
 
 class AdvancedSetting extends StatefulWidget {
   const AdvancedSetting({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class AdvancedSetting extends StatefulWidget {
 class _AdvancedSettingState extends State<AdvancedSetting> {
   String selectedLanguage = 'English';
   List<String> languages = ['English', 'Tiếng Việt'];
-  late String language ;
+  late String language;
 
   @override
   void initState() {
@@ -25,6 +25,7 @@ class _AdvancedSettingState extends State<AdvancedSetting> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -38,7 +39,7 @@ class _AdvancedSettingState extends State<AdvancedSetting> {
             InkWell(
               child: Container(
                 padding:
-                    EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -75,7 +76,7 @@ class _AdvancedSettingState extends State<AdvancedSetting> {
                                       left: 15, right: 15, top: 5, bottom: 5),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Tiếng Việt",
@@ -83,9 +84,9 @@ class _AdvancedSettingState extends State<AdvancedSetting> {
                                       ),
                                       context.locale.toString() == "vi_VN"
                                           ? Icon(
-                                              Icons.check_outlined,
-                                              color: Colors.deepPurple,
-                                            )
+                                        Icons.check_outlined,
+                                        color: Colors.deepPurple,
+                                      )
                                           : Container()
                                     ],
                                   ),
@@ -112,7 +113,7 @@ class _AdvancedSettingState extends State<AdvancedSetting> {
                                         left: 15, right: 15, top: 5, bottom: 5),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           "English",
@@ -120,9 +121,9 @@ class _AdvancedSettingState extends State<AdvancedSetting> {
                                         ),
                                         context.locale.toString() != "vi_VN"
                                             ? Icon(
-                                                Icons.check_outlined,
-                                                color: Colors.deepPurple,
-                                              )
+                                          Icons.check_outlined,
+                                          color: Colors.deepPurple,
+                                        )
                                             : Container()
                                       ],
                                     ),
@@ -131,6 +132,28 @@ class _AdvancedSettingState extends State<AdvancedSetting> {
                       );
                     });
               },
+            ),
+            const Divider(),
+            InkWell(
+              child: Container(
+                padding:
+                EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Dark Mode'.tr(),
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Switch.adaptive(
+                        value: themeProvider.isDarkMode, onChanged: (value) {
+                      final provider = Provider.of<ThemeProvider>(
+                          context, listen: false);
+                      provider.toogleTheme(value);
+                    })
+                  ],
+                ),
+              ),
             ),
             const Divider(),
 

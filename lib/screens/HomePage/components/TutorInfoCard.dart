@@ -40,6 +40,7 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     String toturNationality = widget.tutor.country ?? "Unknown";
     description = widget.tutor.bio.toString();
     String image = widget.tutor.avatar ??
@@ -56,7 +57,7 @@ class _TutorInfoCardState extends State<TutorInfoCard> {
         child: Card(
             margin: EdgeInsets.only(bottom: 20),
             elevation: 2,
-            color: Colors.white,
+            color: isDark ? myLighterPurle : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),

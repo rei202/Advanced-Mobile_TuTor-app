@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/screens/MainScreen.dart';
 import 'package:lettutor/services/authenService.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -21,7 +22,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   TextEditingController emailController = TextEditingController();
   final Widget svg = SvgPicture.asset(
       "images/lettutor_logo.91f91ade.svg",
-      semanticsLabel: 'Acme Logo'
+      semanticsLabel: 'Acme Logo',color: primaryMyColor,
   );
 
   void _updateText() {

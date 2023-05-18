@@ -39,7 +39,6 @@ class _LessonDetailState extends State<LessonDetail>
           child: ListView(
             children: [
               Card(
-                color: Colors.white,
                 child: Column(children: [
                   Image.network(widget.courseModel.imageUrl),
                   Container(
@@ -67,7 +66,6 @@ class _LessonDetailState extends State<LessonDetail>
                                 margin: const EdgeInsets.only(
                                     left: 10.0, right: 20.0),
                                 child: Divider(
-                                  color: Colors.black,
                                   height: 36,
                                 )),
                             Text(
@@ -80,7 +78,6 @@ class _LessonDetailState extends State<LessonDetail>
                                   margin: const EdgeInsets.only(
                                       left: 20.0, right: 10.0),
                                   child: Divider(
-                                    color: Colors.black,
                                     height: 36,
                                   )),
                             ),

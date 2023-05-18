@@ -109,14 +109,14 @@ class _CourseDetailState extends State<CourseDetail>
                           child: Text(
                            course.name,
                             style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                         ),
                         Container(
                           child: Text(
                             course.description,
                             style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w500),
+                                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
                           ),
                         ),
                         Container(

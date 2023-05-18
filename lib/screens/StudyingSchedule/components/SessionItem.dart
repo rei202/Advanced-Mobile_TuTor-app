@@ -80,7 +80,6 @@ class _SessionItemState extends State<SessionItem> {
                               builder: (BuildContext context,
                                       StateSetter setState) =>
                                   AlertDialog(
-                                    backgroundColor: Colors.white,
                                     title: const Text('Cancel booking'),
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -138,8 +137,7 @@ class _SessionItemState extends State<SessionItem> {
                                                   myPurple),
                                           foregroundColor: MaterialStateProperty
                                               .all<Color>(Colors
-                                                  .white), // Màu chữ của nút
-                                          // Các thuộc tính khác của nút (ví dụ: background color, padding, border, etc.)
+                                                  .white),
                                         ),
                                         onPressed: () async {
                                           var response = await ClassService

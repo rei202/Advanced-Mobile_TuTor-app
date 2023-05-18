@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:lettutor/constrants/colors/MyPurple.dart';
 
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -93,11 +94,12 @@ class _BottomInputState extends ConsumerState<BottomInput> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       decoration: BoxDecoration(boxShadow: <BoxShadow>[
         BoxShadow(
             color: Colors.black54, blurRadius: 5.0, offset: Offset(0.0, 0.75))
-      ], color: Colors.deepPurple.shade50),
+      ], color: isDark ? Colors.grey[800]:myLighterPurle),
       child: Column(
         children: [
           Container(

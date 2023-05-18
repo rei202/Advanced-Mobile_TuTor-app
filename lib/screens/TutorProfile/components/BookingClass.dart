@@ -48,7 +48,6 @@ class _BookingClassState extends State<BookingClass> {
                 "Select your expected time",
                 style: TextStyle(
                     fontSize: 17,
-                    color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
             ),
@@ -129,7 +128,6 @@ class _BookingClassState extends State<BookingClass> {
                 "Booking Time",
                 style: TextStyle(
                     fontSize: 17,
-                    color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
             ),
@@ -149,7 +147,6 @@ class _BookingClassState extends State<BookingClass> {
                 "Notes",
                 style: TextStyle(
                     fontSize: 17,
-                    color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
             ),

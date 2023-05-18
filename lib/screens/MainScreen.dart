@@ -9,6 +9,9 @@ import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/Setting/Setting.dart';
 import 'package:lettutor/screens/StudyingSchedule/StudyingSchedule.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme.dart';
 
 
 class MainScreen extends StatefulWidget {
@@ -45,55 +48,54 @@ class _MainScreenState extends State<MainScreen> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return MaterialApp(
-        routes: <String, WidgetBuilder>{
-          '/home': (context) => const HomePage(),
-          '/course': (context) => const Course(),
-          '/schedule': (context) => const StudyingSchedule(),
-          '/history': (context) => const History(),
-          '/Setting': (context) => const Setting(),
+    return ChangeNotifierProvider(
+        create: (context) => ThemeProvider(), builder: (context, _) {
+      final themeProvider = Provider.of<ThemeProvider>(context);
+      return MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          darkTheme: MyTheme.darkTheme,
+          themeMode: themeProvider.themeMode,
+          routes: <String, WidgetBuilder>{
+            '/home': (context) => const HomePage(),
+            '/course': (context) => const Course(),
+            '/schedule': (context) => const StudyingSchedule(),
+            '/history': (context) => const History(),
+            '/Setting': (context) => const Setting(),
 
-        },
-        theme: ThemeData(
-          colorSchemeSeed: const Color(0xff6750a4), useMaterial3: true,
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          // primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: navIndex,
-            // fixedColor: Colors.black,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Colors.deepPurpleAccent,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                label: "Home".tr(),
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.book_outlined), label: "Course".tr()),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_month), label: "Schedule".tr()),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.history_outlined), label: "History".tr()),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: "Setting".tr()),
-            ],
-            onTap: (index) {
-              setState(() {
-                navIndex = index;
-              });
-            },
+          },
+          theme: ThemeData(
+            colorSchemeSeed: const Color(0xff6750a4), useMaterial3: true,
           ),
-          body: pages[navIndex],
-        ));
+          home: Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: navIndex,
+              // fixedColor: Colors.black,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Color(0xff6750a4),
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_outlined),
+                  label: "Home".tr(),
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.book_outlined), label: "Course".tr()),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_month), label: "Schedule".tr()),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.history_outlined), label: "History".tr()),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.settings), label: "Setting".tr()),
+              ],
+              onTap: (index) {
+                setState(() {
+                  navIndex = index;
+                });
+              },
+            ),
+            body: pages[navIndex],
+          ));
+    });
   }
 }

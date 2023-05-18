@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/env/env.dart';
 import 'package:lettutor/screens/ForgotPassword.dart';
 import 'package:lettutor/screens/MainScreen.dart';
@@ -25,12 +26,11 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final Widget svg = SvgPicture.asset("images/lettutor_logo.91f91ade.svg",
-      semanticsLabel: 'Acme Logo');
+      semanticsLabel: 'Acme Logo', color: primaryMyColor,);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         body: Container(
             padding: EdgeInsets.only(top: 20, left: 10, right: 10),
             margin: EdgeInsets.only(top: 70),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 28,
-                                  color: Colors.blue,
+                                  color: primaryMyColor,
                                   fontWeight: FontWeight.bold),
                             )),
                         Container(
@@ -63,7 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -141,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.blue,
+                                    color: primaryMyColor,
                                   ),
                                 ))),
                         Container(
@@ -329,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: Colors.blue,
+                                          color: primaryMyColor,
                                         ),
                                       ))
                                 ])),

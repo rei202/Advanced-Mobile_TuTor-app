@@ -91,6 +91,7 @@ class _TutorInfoState extends State<TutorInfo> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     String image = widget.tutor.avatar ??
         "https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg";
     return (Container(
@@ -119,7 +120,6 @@ class _TutorInfoState extends State<TutorInfo> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
-                            color: Colors.black,
                           ),
                         ),
                         Text(
@@ -127,7 +127,6 @@ class _TutorInfoState extends State<TutorInfo> {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.black,
                           ),
                         ),
                         RatingBar.builder(
@@ -153,36 +152,33 @@ class _TutorInfoState extends State<TutorInfo> {
                   iconSize: 32,
                   icon: Icon(
                     isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.black38,
+                    color: isFavorite
+                        ? Colors.red
+                        : (isDark ? Colors.white : Colors.black38),
                   ),
                   onPressed: () async {
                     var response = await TutorService.addTutortoFavorite(
                         widget.tutor.userId!);
                     if (response) {
-
                       showTopSnackBar(
                           Overlay.of(context),
                           CustomSnackBar.success(
                             message: "Tutor was added in favorite list",
                             maxLines: 2,
                           ),
-                          displayDuration:
-                          const Duration(milliseconds: 500),
+                          displayDuration: const Duration(milliseconds: 500),
                           animationDuration:
-                          const Duration(milliseconds: 1000)
-                      );
-                    }
-                    else{
+                              const Duration(milliseconds: 1000));
+                    } else {
                       showTopSnackBar(
                           Overlay.of(context),
                           CustomSnackBar.success(
                             message: "Tutor was removed in favorite list",
                             maxLines: 2,
                           ),
-                          displayDuration:
-                          const Duration(milliseconds: 500),
+                          displayDuration: const Duration(milliseconds: 500),
                           animationDuration:
-                          const Duration(milliseconds: 1000));
+                              const Duration(milliseconds: 1000));
                     }
                     setState(() {
                       isFavorite = !isFavorite;
@@ -210,14 +206,14 @@ class _TutorInfoState extends State<TutorInfo> {
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
-                          side: BorderSide(width: 1, color: Colors.black),
+                          side: BorderSide(width: 1),
                         ),
                       ),
                       child: Text(
                         "Book".tr(),
                         style: TextStyle(color: Colors.white),
                       )))
-              : Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+              : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Container(
                     width: 30,
                     height: 30,
@@ -239,7 +235,9 @@ class _TutorInfoState extends State<TutorInfo> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Review(tutorId: widget.tutor.userId,)));
+                                    builder: (context) => Review(
+                                          tutorId: widget.tutor.userId,
+                                        )));
                           },
                           iconSize: 30,
                           color: Colors.deepPurple,
@@ -262,7 +260,7 @@ class _TutorInfoState extends State<TutorInfo> {
                                       builder: (BuildContext context,
                                               StateSetter setState) =>
                                           AlertDialog(
-                                            title:  const Text('Report tutor'),
+                                            title: const Text('Report tutor'),
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: <Widget>[
@@ -391,14 +389,13 @@ class _TutorInfoState extends State<TutorInfo> {
                   ])),
           Text(
             description,
-            style:
-                TextStyle(fontSize: 14, color: Color(0xff686868), height: 1.3),
+            style: TextStyle(fontSize: 14, height: 1.3),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 15, top: 15),
             child: Text(
               "Languages".tr(),
-              style: TextStyle(fontSize: 17, color: Colors.black),
+              style: TextStyle(fontSize: 17),
             ),
           ),
           Container(
@@ -424,7 +421,7 @@ class _TutorInfoState extends State<TutorInfo> {
             margin: EdgeInsets.only(bottom: 15),
             child: Text(
               "Speciaties".tr(),
-              style: TextStyle(fontSize: 17, color: Colors.black),
+              style: TextStyle(fontSize: 17),
             ),
           ),
           Container(
@@ -451,15 +448,14 @@ class _TutorInfoState extends State<TutorInfo> {
             margin: EdgeInsets.only(bottom: 15),
             child: Text(
               "Interests".tr(),
-              style: TextStyle(fontSize: 17, color: Colors.black),
+              style: TextStyle(fontSize: 17),
             ),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 15, left: 10),
             child: Text(
               widget.tutor.interests!,
-              style: TextStyle(
-                  fontSize: 14, color: Color(0xff686868), height: 1.3),
+              style: TextStyle(fontSize: 14, height: 1.3),
             ),
           ),
           Container(
@@ -468,15 +464,14 @@ class _TutorInfoState extends State<TutorInfo> {
             ),
             child: Text(
               "Teaching Experience".tr(),
-              style: TextStyle(fontSize: 17, color: Colors.black),
+              style: TextStyle(fontSize: 17),
             ),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 15, left: 10),
             child: Text(
               widget.tutor.experience!,
-              style: TextStyle(
-                  fontSize: 14, color: Color(0xff686868), height: 1.3),
+              style: TextStyle(fontSize: 14, height: 1.3),
             ),
           ),
           Container(
@@ -485,7 +480,7 @@ class _TutorInfoState extends State<TutorInfo> {
             ),
             child: Text(
               "Schedule".tr(),
-              style: TextStyle(fontSize: 17, color: Colors.black),
+              style: TextStyle(fontSize: 17),
             ),
           ),
           Row(

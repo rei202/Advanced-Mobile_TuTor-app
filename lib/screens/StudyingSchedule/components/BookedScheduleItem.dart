@@ -6,13 +6,15 @@ import 'package:intl/intl.dart';
 import 'package:lettutor/models/TutorInfo.dart';
 import 'package:lettutor/screens/StudyingSchedule/components/SessionItem.dart';
 
+import '../../../constrants/colors/MyPurple.dart';
 import '../../../models/Booking.dart';
 import '../../HomePage/components/SkillTag.dart';
 
 class BookedScheduleItem extends StatefulWidget {
   const BookedScheduleItem({
     required this.groupBookingItem,
-    required this.callback, required this.key,
+    required this.callback,
+    required this.key,
   }) : super(key: key);
 
   final Function callback;
@@ -91,20 +93,24 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
   @override
   Widget build(BuildContext context) {
     return (Container(
-        color: Color(0xfff1f1f1),
-        padding: EdgeInsets.all(20),
+        color: myLighterPurle,
+        padding: EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
         margin: EdgeInsets.only(bottom: 30),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             DateFormat('EEE, dd MMM yy').format(
                 DateTime.fromMillisecondsSinceEpoch(widget.groupBookingItem[0]
                     .scheduleDetailInfo!.startPeriodTimestamp)),
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
-          Container(
+          Card(child: Container(
             margin: EdgeInsets.only(top: 20, bottom: 20),
             padding: EdgeInsets.all(12),
-            color: Colors.white,
+            // color: myLightPurle,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -127,7 +133,6 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
-                            color: Colors.black,
                           ),
                         ),
                         Text(
@@ -135,7 +140,6 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -144,19 +148,19 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
               ],
               crossAxisAlignment: CrossAxisAlignment.start,
             ),
-          ),
-          Container(
+          )),
+          Card(
+              child: Container(
             padding: EdgeInsets.all(20),
             alignment: Alignment.topLeft,
             width: double.infinity,
-            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: sessionList,
             ),
-          ),
+          )),
           Container(
-            margin: EdgeInsets.only(top: 20, bottom: 10),
+            margin: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
             color: Colors.white,
             child: ExpansionPanelList(
               expansionCallback: (panelIndex, isExpanded) {

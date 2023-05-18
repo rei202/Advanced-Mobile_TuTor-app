@@ -69,7 +69,7 @@ class _CourseCardState extends State<CourseCard> {
                             child: Text(
                               widget.course!.name,
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
                             )),
                         Container(
                           margin: EdgeInsets.only(bottom: 20),

@@ -10,7 +10,6 @@ import 'package:lettutor/services/profileService.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/widgets.dart';
 
-
 class Profile extends StatefulWidget {
   const Profile({Key? key, required this.myInfo}) : super(key: key);
   final UserInfo myInfo;
@@ -39,7 +38,8 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> _pickImage() async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setState(() {
@@ -76,7 +76,8 @@ class _ProfileState extends State<Profile> {
                             radius: 45,
                             backgroundImage: _selectedImage != null
                                 ? FileImage(_selectedImage!)
-                                : NetworkImage(widget.myInfo.avatar) as ImageProvider<Object>?,
+                                : NetworkImage(widget.myInfo.avatar)
+                                    as ImageProvider<Object>?,
                           ),
                           Positioned(
                             bottom: 0,
@@ -97,14 +98,14 @@ class _ProfileState extends State<Profile> {
                       ),
                       Text(widget.myInfo.name,
                           style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          )),
                       Text(widget.myInfo.email,
                           style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          )),
                     ],
                   ),
                 )),
@@ -118,17 +119,15 @@ class _ProfileState extends State<Profile> {
                       Text(
                         "Name".tr(),
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       TextField(
                           controller: name,
-                          style:
-                              TextStyle(fontSize: 15, color: Colors.grey[700]),
+                          style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.grey.shade100,
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
@@ -137,17 +136,15 @@ class _ProfileState extends State<Profile> {
                       Text(
                         "Phone number".tr(),
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       TextField(
                           controller: phone,
-                          style:
-                              TextStyle(fontSize: 15, color: Colors.grey[700]),
+                          style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.grey.shade100,
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
@@ -156,17 +153,15 @@ class _ProfileState extends State<Profile> {
                       Text(
                         "Birthday".tr(),
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       TextField(
                           controller: dob,
-                          style:
-                              TextStyle(fontSize: 15, color: Colors.grey[700]),
+                          style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.grey.shade100,
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
@@ -175,17 +170,15 @@ class _ProfileState extends State<Profile> {
                       Text(
                         "Country".tr(),
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       DropdownButtonFormField(
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.grey.shade100,
                           hintText: widget.myInfo.country,
-                          hintStyle:
-                              TextStyle(fontSize: 15, color: Colors.grey[700]),
+                          hintStyle: TextStyle(fontSize: 15),
                           border: const OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius:
@@ -206,8 +199,7 @@ class _ProfileState extends State<Profile> {
                             value: value,
                             child: Text(
                               value,
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.grey[700]),
+                              style: TextStyle(fontSize: 15),
                             ),
                           );
                         }).toList(),
@@ -215,17 +207,15 @@ class _ProfileState extends State<Profile> {
                       Text(
                         "My Level".tr(),
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       DropdownButtonFormField(
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.grey.shade100,
                           hintText: widget.myInfo.level,
-                          hintStyle:
-                              TextStyle(fontSize: 15, color: Colors.grey[700]),
+                          hintStyle: TextStyle(fontSize: 15),
                           border: const OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius:
@@ -249,8 +239,7 @@ class _ProfileState extends State<Profile> {
                             value: value,
                             child: Text(
                               value.replaceAll('_', " "),
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.grey[700]),
+                              style: TextStyle(fontSize: 15),
                             ),
                           );
                         }).toList(),

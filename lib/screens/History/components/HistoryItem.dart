@@ -7,6 +7,7 @@ import 'package:lettutor/models/Booking.dart';
 import 'package:lettutor/models/TutorInfo.dart';
 import 'package:lettutor/screens/StudyingSchedule/components/SessionItem.dart';
 
+import '../../../constrants/colors/MyPurple.dart';
 import '../../HomePage/components/SkillTag.dart';
 
 class HistoryItem extends StatefulWidget {
@@ -60,78 +61,78 @@ class _HistoryItemState extends State<HistoryItem> {
   @override
   Widget build(BuildContext context) {
     return (Container(
-        color: Color(0xfff1f1f1),
-        padding: EdgeInsets.all(20),
+        color: myLighterPurle,
+        padding: EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
         margin: EdgeInsets.only(bottom: 30),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             bookingDate,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,              color: Colors.black,
+            ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20, bottom: 20),
-            padding: EdgeInsets.all(12),
-            color: Colors.white,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.brown.shade800,
-                  backgroundImage: NetworkImage(widget.booking
-                      .scheduleDetailInfo!.scheduleInfo!.tutorInfo!.avatar!),
-                ),
-                Container(
-                    height: 70,
-                    margin: EdgeInsets.only(left: 22),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          name,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            color: Colors.black,
+          Card(
+            child: Container(
+              padding: EdgeInsets.all(12),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundColor: Colors.brown.shade800,
+                    backgroundImage: NetworkImage(widget.booking
+                        .scheduleDetailInfo!.scheduleInfo!.tutorInfo!.avatar!),
+                  ),
+                  Container(
+                      height: 70,
+                      margin: EdgeInsets.only(left: 22),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            name,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
                           ),
-                        ),
-                        Text(
-                          toturNationality,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
+                          Text(
+                            toturNationality,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
 
-                      ],
-                    )),
-                Spacer(),
-              ],
-              crossAxisAlignment: CrossAxisAlignment.start,
+                        ],
+                      )),
+                  Spacer(),
+                ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+          ),
+          Card(
+            child: Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.topLeft,
+              width: double.infinity,
+              child: Text(
+                "Lesson Time: " +
+                    DateFormat('HH:mm').format(
+                        DateTime.fromMillisecondsSinceEpoch(widget
+                            .booking.scheduleDetailInfo!.startPeriodTimestamp)) +
+                    ' - ' +
+                    DateFormat('HH:mm').format(
+                        DateTime.fromMillisecondsSinceEpoch(widget
+                            .booking.scheduleDetailInfo!.endPeriodTimestamp)),
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(20),
-            alignment: Alignment.topLeft,
-            width: double.infinity,
-            color: Colors.white,
-            child: Text(
-              "Lesson Time: " +
-                  DateFormat('HH:mm').format(
-                      DateTime.fromMillisecondsSinceEpoch(widget
-                          .booking.scheduleDetailInfo!.startPeriodTimestamp)) +
-                  ' - ' +
-                  DateFormat('HH:mm').format(
-                      DateTime.fromMillisecondsSinceEpoch(widget
-                          .booking.scheduleDetailInfo!.endPeriodTimestamp)),
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 5),
+            margin: EdgeInsets.only(top: 5, left: 5, right: 5),
             color: Colors.white,
             child: ExpansionPanelList(
               expansionCallback: (panelIndex, isExpanded) {
@@ -174,7 +175,7 @@ class _HistoryItemState extends State<HistoryItem> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 5, bottom: 5),
+            margin: EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
             color: Colors.white,
             child: ExpansionPanelList(
               expansionCallback: (panelIndex, isExpanded) {
@@ -216,17 +217,18 @@ class _HistoryItemState extends State<HistoryItem> {
               ],
             ),
           ),
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Row(
-              children: [
-                TextButton(onPressed: () {}, child: Text("Add a rating")),
-                Spacer(),
-                TextButton(onPressed: () {}, child: Text("Report")),
-              ],
+          Card(
+            child: Container(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Row(
+                children: [
+                  TextButton(onPressed: () {}, child: Text("Add a rating")),
+                  Spacer(),
+                  TextButton(onPressed: () {}, child: Text("Report")),
+                ],
+              ),
             ),
-          )
+          ),
         ])));
   }
 
