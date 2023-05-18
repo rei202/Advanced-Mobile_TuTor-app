@@ -5,7 +5,6 @@ import 'package:lettutor/env/env.dart';
 import 'package:http/http.dart' as http;
 import 'package:lettutor/models/Course.dart';
 
-
 class CourseService {
   static Future<List<CourseModel>?> getCourseList(int page, int size) async {
     List<CourseModel> courseList = <CourseModel>[];
@@ -39,18 +38,43 @@ class CourseService {
       return null;
     }
   }
-  static Future<List<CourseModel>?> searchCourse(int page, int size, String searchString) async {
+
+  static Future<List<CourseModel>?> searchCourse(int page, int size,
+      String searchString, String categoryId, int level) async {
     List<CourseModel> courseList = <CourseModel>[];
 
     try {
       final box = GetStorage();
       String? token = await box.read('token');
       // print("token: " + token!);
-      var url = Uri.https(baseUrl, 'course', {
+      var queryParams = {
         'size': '$size',
         'page': '$page',
         'q': '$searchString'
-      });
+      };
+      if (categoryId != "-1" && level != -1)
+        queryParams = {
+          'size': '$size',
+          'page': '$page',
+          'q': '$searchString',
+          'level[]': '$level',
+          'categoryId[]': '$categoryId'
+        };
+      else if (categoryId == "-1" && level != -1)
+        queryParams = {
+          'size': '$size',
+          'page': '$page',
+          'q': '$searchString',
+          'level[]': '$level',
+        };
+      else if (categoryId != "-1" && level == -1)
+        queryParams = {
+          'size': '$size',
+          'page': '$page',
+          'q': '$searchString',
+          'categoryId[]': '$categoryId'
+        };
+      var url = Uri.https(baseUrl, 'course', queryParams);
       var response = await http.get(
         url,
         headers: {
@@ -72,6 +96,7 @@ class CourseService {
       return null;
     }
   }
+
   static Future<CourseModel?> getCourse(String courseId) async {
     try {
       final box = GetStorage();
@@ -96,5 +121,4 @@ class CourseService {
       return null;
     }
   }
-
 }
