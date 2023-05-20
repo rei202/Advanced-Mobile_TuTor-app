@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ import 'package:lettutor/models/FavoriteTutor.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:http/http.dart' as http;
 import '../models/Feedback.dart';
+import 'dart:async';
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
 
 import '../models/TutorSchedule.dart';
 
@@ -80,9 +84,9 @@ class TutorService {
     }
   }
 
-  static Future<List<FavoriteTutor>?> getFavoriteTutorList(
+  static Future<List<Tutor>?> getFavoriteTutorList(
       int page, int perPage) async {
-    List<FavoriteTutor> favoriteTutorList = <FavoriteTutor>[];
+    List<Tutor> favoriteTutorList = <Tutor>[];
 
     try {
       final box = GetStorage();
@@ -103,7 +107,7 @@ class TutorService {
       if (response.statusCode == 200) {
         var favoriteTutors = jsonDecode(response.body)['favoriteTutor'];
         for (var favorite in favoriteTutors) {
-          favoriteTutorList.add(FavoriteTutor.fromJson(favorite));
+          favoriteTutorList.add(Tutor.fromJsonFavorite(favorite['secondInfo']));
         }
         return favoriteTutorList;
       } else {
@@ -137,29 +141,39 @@ class TutorService {
     }
   }
 
-// static Future<bool> manageFavoriteTutor(String id) async {
-//   try {
-//     var storage = const FlutterSecureStorage();
-//     String? token = await storage.read(key: 'accessToken');
-//     var url = Uri.https(apiUrl, 'user/manageFavoriteTutor');
-//     var response = await http.post(url,
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': 'Bearer $token'
-//         },
-//         body: json.encode({
-//           'tutorId': id,
-//         }));
-//
-//     if (response.statusCode == 200) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   } on Error catch (_) {
-//     return false;
-//   }
-// }
+
+  // static Future<Map<String,>> becomeTutor(String name, String country, String birthday, String interests, String education, String experience,
+  //     String profession, String languages, String bio, String targetStudent, String specialties, File avatar, File video, int price) async {
+  //   FormData formData = FormData.fromMap({
+  //     'name': name,
+  //     'country': country,
+  //     'birthday': birthday,
+  //     'interests': interests,
+  //     'education': education,
+  //     'experience': experience,
+  //     'profession': profession,
+  //     'languages': languages,
+  //     'bio': bio,
+  //     'targetStudent': targetStudent,
+  //     'specialties': specialties,
+  //     'avatar': await MultipartFile.fromFile(avatar.path, filename: avatar.path.split('/').last),
+  //     'video': await MultipartFile.fromFile(video.path, filename: video.path.split('/').last),
+  //     'price': price
+  //   });
+  //
+  //   Dio dio = Dio();
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //
+  //   dio.options.headers["Content-Type"] = "multipart/form-data; boundary=<calculated when request is sent>";
+  //   dio.options.headers["Authorization"] = "Bearer ${prefs.getString("access")}";
+  //
+  //   final response = await dio.postUri(Uri.parse('$_url/tutor/register'), data: formData);
+  //   if (response.statusCode == 200) {
+  //     return _parseMessage("Become a teacher success!", 200);
+  //   } else {
+  //     return _parseMessage(response.data, response.statusCode!);
+  //   }
+  // }
 
   static Future<List<ScheduleItem>?> getTutorSchedule(String userId) async {
     try {

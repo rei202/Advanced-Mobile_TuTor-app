@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lettutor/providers/theme.dart';
+import 'package:lettutor/screens/Auth/LoginPage.dart';
 import 'package:lettutor/screens/Course/Course.dart';
 import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
-import 'package:lettutor/screens/ForgotPassword.dart';
+import 'package:lettutor/screens/Auth/ForgotPassword.dart';
 import 'package:lettutor/screens/History/History.dart';
 import 'package:lettutor/screens/HomePage/HomePage.dart';
 import 'package:lettutor/screens/LessonDetail/LessonDetail.dart';
-import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/MainScreen.dart';
-import 'package:lettutor/screens/SignupPage.dart';
 import 'package:lettutor/screens/StudyingSchedule/StudyingSchedule.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';
 

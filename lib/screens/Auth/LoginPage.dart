@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
 import 'package:lettutor/env/env.dart';
-import 'package:lettutor/screens/ForgotPassword.dart';
+import 'package:lettutor/screens/Auth/ForgotPassword.dart';
 import 'package:lettutor/screens/MainScreen.dart';
-import 'package:lettutor/screens/SignupPage.dart';
 import 'package:lettutor/services/authenService.dart';
 import 'package:lettutor/services/authenWithSocialNetwork.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../models/User.dart';
+import '../../models/User.dart';
+import 'SignupPage.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   String textToShow = 'I Like Flutter';
   List<Tutor> tutorList = [];
   List<Tutor> originalTutorList = [];
-  List<FavoriteTutor> favoriteList = [];
+  List<Tutor> favoriteList = [];
   int? _selectedChipIndex = 0;
   final ScrollController _scrollController = ScrollController();
 
@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
   bool isNoTutor = false;
   bool favoriteMode = false;
 
-
   // bool isInProgress = true;
 
   void getTutorList(int page, int perPage) async {
@@ -75,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       perPage,
     );
     List<Tutor>? list1 = resTutorList;
-    List<FavoriteTutor>? list2 = resFavoriteList;
+    List<Tutor>? list2 = resFavoriteList;
 
     if (!isLoading) {
       setState(() {
@@ -102,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     List<Booking>? temp = await ClassService.getBookingList(timeStampNow);
     setState(() {
       bookingList = List.of(temp!);
-      upComingLesson = TimeUtil.getNearestObject(temp!, timeStampNow)!;
+      upComingLesson = TimeUtil.getNearestObject(temp!, timeStampNow);
     });
   }
 
@@ -138,8 +137,9 @@ class _HomePageState extends State<HomePage> {
       if (_scrollController.offset ==
           _scrollController.position.maxScrollExtent) {
         print(isSearching);
-        if (!isSearching && !favoriteMode) loadMoreTutorList();
-        else if(isSearching && !favoriteMode) loadMoreTutorSearchList();
+        if (!isSearching && !favoriteMode)
+          loadMoreTutorList();
+        else if (isSearching && !favoriteMode) loadMoreTutorSearchList();
       }
     });
   }
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
         await SearchService.search(_filters, searchString, page, perPage);
     setState(() {
       tutorList = List.of(temp!);
-      if (tutorList.isEmpty|| temp!.length == 1)
+      if (tutorList.isEmpty || temp!.length == 1)
         isNoTutor = true;
       else
         isNoTutor = false;
@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  bool checkFavorite(Tutor tutor, List<FavoriteTutor> favoriteList) {
+  bool checkFavorite(Tutor tutor, List<Tutor> favoriteList) {
     if (favoriteList.any((element) => element.userId == tutor.userId)) {
       return true;
     } else
@@ -248,7 +248,8 @@ class _HomePageState extends State<HomePage> {
                   setState(() {
                     searchString = text;
                   });
-                  search(_filters, text ?? "", searchCurrentPage, searchPerPage);
+                  search(
+                      _filters, text ?? "", searchCurrentPage, searchPerPage);
                 },
                 onClearButtonPressed: (text) {
                   setState(() {
@@ -319,30 +320,39 @@ class _HomePageState extends State<HomePage> {
                       child: DropdownButton<String>(
                     value: dropdownValue,
                     icon: Icon(Icons.filter_list),
-                    onChanged: (String? newValue) {
+                    onChanged: (String? newValue) async {
                       setState(() {
                         dropdownValue = newValue!;
-                        print(newValue);
-                        if (newValue == "Rating") {
+                      });
+                      print(newValue);
+                      if (newValue == "Rating") {
+                        setState(() {
                           favoriteMode = false;
                           List<Tutor> temp = List.of(tutorList);
                           temp.sort((a, b) =>
                               (b.rating ?? 0).compareTo(a.rating ?? 0));
                           tutorList = temp;
-                        } else if (newValue == "None") {
+                        });
+                      } else if (newValue == "None") {
+                        setState(() {
                           favoriteMode = false;
                           tutorList = List.of(originalTutorList);
                           isSearching = false;
-                        } else {
-                          favoriteMode = true;
-                          List<Tutor> temp = List.of(tutorList);
-                          tutorList = temp
-                              .where((tutor) => favoriteList.any(
-                                  (element) => element.userId == tutor.userId))
-                              .toList();
+                        });
+                      } else {
+                        favoriteMode = true;
+                        List<Tutor>? temp =
+                            await TutorService.getFavoriteTutorList(1, 10);
+
+                        // tutorList = temp
+                        //     .where((tutor) => favoriteList.any(
+                        //         (element) => element.userId == tutor.userId))
+                        //     .toList();
+                        setState(() {
+                          tutorList = temp!;
                           isSearching = true;
-                        }
-                      });
+                        });
+                      }
                     },
                     items: <String>['None', 'Rating', 'Favorite']
                         .map<DropdownMenuItem<String>>((String value) {
@@ -369,7 +379,8 @@ class _HomePageState extends State<HomePage> {
                   if (index < tutorList.length)
                     return TutorInfoCard(
                       tutor: tutorList[index],
-                      isFavorite: checkFavorite(tutorList[index], favoriteList), key: ValueKey(tutorList[index].userId),
+                      isFavorite: checkFavorite(tutorList[index], favoriteList),
+                      key: ValueKey(tutorList[index].userId),
                     );
                   else
                     return Padding(

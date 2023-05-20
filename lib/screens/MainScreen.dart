@@ -5,7 +5,6 @@ import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
 import 'package:lettutor/screens/History/History.dart';
 import 'package:lettutor/screens/HomePage/HomePage.dart';
 import 'package:lettutor/screens/LessonDetail/LessonDetail.dart';
-import 'package:lettutor/screens/LoginPage.dart';
 import 'package:lettutor/screens/Setting/Setting.dart';
 import 'package:lettutor/screens/StudyingSchedule/StudyingSchedule.dart';
 import 'package:lettutor/screens/TutorProfile/TutorProfile.dart';

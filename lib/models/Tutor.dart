@@ -71,6 +71,29 @@ class Tutor {
       feedbacks: feedbacks,
     );
   }
+  factory Tutor.fromJsonFavorite(Map<String, dynamic> json) {
+    List<FeedBack> feedbacks = [];
+    if (json['feedbacks'] != null) {
+      for (var feedBack in json['feedbacks']) {
+        feedbacks.add(FeedBack.fromJson(feedBack));
+      }
+    }
+    return Tutor(
+      userId: json['id'],
+      avatar: json['avatar'],
+      name: json['name'],
+      country: json['country'],
+      bio: json['tutorInfo']['bio'],
+      rating: json['tutorInfo']['rating'],
+      video: json['tutorInfo']['video'],
+      experience: json['tutorInfo']['experience'],
+      languages: json['tutorInfo']['languages'],
+      interests: json['tutorInfo']['interests'],
+      isFavorite: json['isFavorite'],
+      specialties: json['tutorInfo']['specialties'],
+      feedbacks: feedbacks,
+    );
+  }
 
 
 }

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/UserInfo.dart';
+import 'package:lettutor/screens/BecomeTeacher/BecomeTeacher.dart';
 import 'package:lettutor/screens/ChatGPT/ChatGPT.dart';
 import 'package:lettutor/screens/Setting/AdvancedSetting.dart';
 import 'package:lettutor/screens/Setting/Profile.dart';
@@ -161,7 +162,12 @@ class _SettingState extends State<Setting> {
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BecomeTeacher( )));
+                        },
                         // style: ElevatedButton.styleFrom(
                         //   primary: myLighterPurle, // Set the background color of the button
                         // ),
