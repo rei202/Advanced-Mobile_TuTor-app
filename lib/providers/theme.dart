@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/constrants/colors/MyPurple.dart';
 
 class ThemeProvider extends ChangeNotifier{
-  ThemeMode themeMode = ThemeMode.dark;
+  ThemeMode themeMode = ThemeMode.light;
   bool get isDarkMode => themeMode == ThemeMode.dark;
   void toogleTheme(bool value){
     themeMode = value ? ThemeMode.dark : ThemeMode.light;

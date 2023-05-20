@@ -107,7 +107,8 @@ class TutorService {
       if (response.statusCode == 200) {
         var favoriteTutors = jsonDecode(response.body)['favoriteTutor'];
         for (var favorite in favoriteTutors) {
-          favoriteTutorList.add(Tutor.fromJsonFavorite(favorite['secondInfo']));
+          if(favorite['secondInfo'] != null)
+            favoriteTutorList.add(Tutor.fromJsonFavorite(favorite['secondInfo']));
         }
         return favoriteTutorList;
       } else {

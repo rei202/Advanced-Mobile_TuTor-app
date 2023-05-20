@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
+            color: Colors.white,
             padding: EdgeInsets.only(top: 20, left: 10, right: 10),
             margin: EdgeInsets.only(top: 70),
             child: ListView(children: [
@@ -65,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black
                             ),
                           ),
                         ),
@@ -325,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                                         );
                                       },
                                       child: Text(
-                                        "Sign up",
+                                        "Sign up".tr(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 16,

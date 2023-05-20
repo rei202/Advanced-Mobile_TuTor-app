@@ -16,7 +16,7 @@ class ScheduleUtils {
         previousEndTime = DateTime.fromMillisecondsSinceEpoch(
             previousItem.scheduleDetailInfo!.endPeriodTimestamp);
       if (previousItem == null ||
-          currentStartTime.difference(previousEndTime!).inMinutes > 5) {
+          currentStartTime.difference(previousEndTime!).inMinutes > 5 || bookingItems[i].scheduleDetailInfo?.scheduleInfo?.tutorInfo?.userId != bookingItems[i - 1].scheduleDetailInfo?.scheduleInfo?.tutorInfo?.userId) {
         // start a new group
         currentGroup = [currentItem];
         groups.add(currentGroup);

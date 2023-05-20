@@ -74,7 +74,8 @@ class _SettingState extends State<Setting> {
                           MaterialPageRoute(
                               builder: (context) => Profile(
                                     myInfo: user,
-                                  ))).then((value) {
+                                  ))).then(
+                        (value) {
                           if (value) {
                             //refresh here
                             setState(() {
@@ -166,7 +167,7 @@ class _SettingState extends State<Setting> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => BecomeTeacher( )));
+                                  builder: (context) => BecomeTeacher()));
                         },
                         // style: ElevatedButton.styleFrom(
                         //   primary: myLighterPurle, // Set the background color of the button
@@ -214,6 +215,19 @@ class _SettingState extends State<Setting> {
                             Icon(Icons.keyboard_arrow_right)
                           ],
                         )),
+                  ),
+                  Container(
+                    width: double.maxFinite,
+                    margin: EdgeInsets.only(bottom: 10, top: 40),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(context, '/Signin', (route) => false);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary:
+                              myPurple, // Set the background color of the button
+                        ),
+                        child: Text("Sign out", style: TextStyle(fontSize: 18, color: Colors.white),)),
                   ),
                 ],
               ),

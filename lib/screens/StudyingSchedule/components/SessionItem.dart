@@ -12,13 +12,14 @@ import '../../HomePage/components/SkillTag.dart';
 
 class SessionItem extends StatefulWidget {
   const SessionItem(
-      {super.key,
-      required this.sessionNumber,
+      {required this.sessionNumber,
       required this.sessionTime,
       required this.isBook,
       required this.context,
       required this.scheduleDetailId,
-      required this.callback});
+      required this.callback,
+      required this.key})
+      : super(key: key);
 
   final String sessionNumber;
   final String sessionTime;
@@ -26,6 +27,7 @@ class SessionItem extends StatefulWidget {
   final BuildContext context;
   final String scheduleDetailId;
   final Function callback;
+  final Key key;
 
   @override
   State<StatefulWidget> createState() => _SessionItemState();
@@ -135,14 +137,14 @@ class _SessionItemState extends State<SessionItem> {
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
                                                   myPurple),
-                                          foregroundColor: MaterialStateProperty
-                                              .all<Color>(Colors
-                                                  .white),
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.white),
                                         ),
                                         onPressed: () async {
                                           var response = await ClassService
                                               .cancelBookingClass(
-                                              widget.scheduleDetailId,
+                                                  widget.scheduleDetailId,
                                                   checkSelectedValue(
                                                       selectedValue!),
                                                   noteTextController.text);

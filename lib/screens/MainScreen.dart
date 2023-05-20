@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/Auth/LoginPage.dart';
 import 'package:lettutor/screens/Course/Course.dart';
 import 'package:lettutor/screens/CourseDetail/CourseDetail.dart';
 import 'package:lettutor/screens/History/History.dart';
@@ -62,6 +63,8 @@ class _MainScreenState extends State<MainScreen> {
             '/schedule': (context) => const StudyingSchedule(),
             '/history': (context) => const History(),
             '/Setting': (context) => const Setting(),
+            '/Signin': (context) => const LoginPage(),
+
 
           },
           theme: ThemeData(

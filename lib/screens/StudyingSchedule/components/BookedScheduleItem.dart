@@ -71,6 +71,7 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
     );
     for (int i = 0; i < booking.length; i++) {
       sessionList.add(SessionItem(
+        key: ValueKey(booking[i].id),
         scheduleDetailId: booking[i].id,
         sessionNumber: i.toString(),
         sessionTime: DateFormat('HH:mm').format(
@@ -107,7 +108,8 @@ class _BookedScheduleItemState extends State<BookedScheduleItem> {
               color: Colors.black,
             ),
           ),
-          Card(child: Container(
+          Card(
+              child: Container(
             margin: EdgeInsets.only(top: 20, bottom: 20),
             padding: EdgeInsets.all(12),
             // color: myLightPurle,
