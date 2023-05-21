@@ -210,202 +210,219 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: ListView(
-        children: [
-          upComingLesson != null
-              ? BannerComponent(
-                  totalLessonTime: totalLessonTime,
-                  upComingLession: upComingLesson!)
-              : Container(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  height: 150,
-                  color: myPurple,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "You have no upcoming lesson",
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          ' Welcome to LetTutor!',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ])),
-          Container(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-              child: OutlineSearchBar(
-                hintText: "Search".tr(),
-                debounceDelay: 1000,
-                onTypingFinished: (text) {
-                  print(text);
-                  setState(() {
-                    searchString = text;
-                  });
-                  search(
-                      _filters, text ?? "", searchCurrentPage, searchPerPage);
-                },
-                onClearButtonPressed: (text) {
-                  setState(() {
-                    searchString = "";
-                  });
-                  search(_filters, "", searchCurrentPage, searchPerPage);
-                },
-                borderRadius: BorderRadius.all(const Radius.circular(10.0)),
-              )),
-          Container(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 5),
-            child: Wrap(
-              spacing: 3,
-              runSpacing: -10,
-              children: specialties.map(
-                (specialty) {
-                  return FilterChip(
-                    // selectedColor: Colors.amberAccent,
-                    selectedShadowColor: Colors.cyanAccent,
-                    label: Text(
-                      specialty.replaceAll("-", " "),
-                      style: TextStyle(fontSize: 10),
-                    ),
-                    selected: _filters.contains(specialty),
-                    onSelected: (bool value) async {
-                      setState(() {
-                        if (value) {
-                          if (!_filters.contains(specialty)) {
-                            _filters.add(specialty);
-                          }
-                        } else {
-                          _filters.removeWhere((String name) {
-                            return name == specialty;
-                          });
-                        }
-                        search(_filters, searchString, 1, searchPerPage);
-                        setState(() {
-                          isNoTutor = true;
-                        });
-                        // tutorList = originalTutorList.where((tutor) {
-                        //   return _filters.every((filter) =>
-                        //       tutor.specialties?.contains(filter) ?? false);
-                        // }).toList();
-                        // print(tutorList);
-                      });
-                    },
-                  );
-                },
-              ).toList(),
-            ),
-          ),
-          Container(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              margin: EdgeInsets.only(top: 16, bottom: 8),
-              alignment: Alignment.topLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // body: ListView(
+      //   children: [
+      //
+      //     Container(
+      //       height: 500,
+      //       padding: EdgeInsets.only(left: 20, right: 20),
+      //       // child: Column(
+      //       //   children:
+      //       //       // SearchComponent()
+      //       //       _getListData(),
+      //       // ),
+      //       child: ,
+      //     )
+      //   ],
+      // ),
+      body: ListView.builder(
+          controller: _scrollController,
+          itemCount: tutorList.length + 2,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return Column(
                 children: [
-                  Text(
-                    "Tutors".tr(),
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 23,
+                  Container(
+                    width: double.maxFinite,
+                    child: upComingLesson != null
+                        ? BannerComponent(
+                            totalLessonTime: totalLessonTime,
+                            upComingLession: upComingLesson!)
+                        : Container(
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            height: 150,
+                            color: myPurple,
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "You have no upcoming lesson",
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' Welcome to LetTutor!',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ])),
+                  ),
+                  Container(
+                      padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                      child: OutlineSearchBar(
+                        hintText: "Search".tr(),
+                        debounceDelay: 1000,
+                        onTypingFinished: (text) {
+                          print(text);
+                          setState(() {
+                            searchString = text;
+                          });
+                          search(_filters, text ?? "", searchCurrentPage,
+                              searchPerPage);
+                        },
+                        onClearButtonPressed: (text) {
+                          setState(() {
+                            searchString = "";
+                          });
+                          search(
+                              _filters, "", searchCurrentPage, searchPerPage);
+                        },
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(10.0)),
+                      )),
+                  Container(
+                    padding: EdgeInsets.only(left: 20, right: 20, top: 5),
+                    child: Wrap(
+                      spacing: 3,
+                      runSpacing: -10,
+                      children: specialties.map(
+                        (specialty) {
+                          return FilterChip(
+                            // selectedColor: Colors.amberAccent,
+                            selectedShadowColor: Colors.cyanAccent,
+                            label: Text(
+                              specialty.replaceAll("-", " "),
+                              style: TextStyle(fontSize: 10),
+                            ),
+                            selected: _filters.contains(specialty),
+                            onSelected: (bool value) async {
+                              setState(() {
+                                if (value) {
+                                  if (!_filters.contains(specialty)) {
+                                    _filters.add(specialty);
+                                  }
+                                } else {
+                                  _filters.removeWhere((String name) {
+                                    return name == specialty;
+                                  });
+                                }
+                                search(
+                                    _filters, searchString, 1, searchPerPage);
+                                setState(() {
+                                  isNoTutor = true;
+                                });
+                                // tutorList = originalTutorList.where((tutor) {
+                                //   return _filters.every((filter) =>
+                                //       tutor.specialties?.contains(filter) ?? false);
+                                // }).toList();
+                                // print(tutorList);
+                              });
+                            },
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
-                  DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.filter_list),
-                    onChanged: (String? newValue) async {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                      print(newValue);
-                      if (newValue == "Rating") {
-                        setState(() {
-                          favoriteMode = false;
-                          List<Tutor> temp = List.of(tutorList);
-                          temp.sort((a, b) =>
-                              (b.rating ?? 0).compareTo(a.rating ?? 0));
-                          tutorList = temp;
-                        });
-                      } else if (newValue == "None") {
-                        setState(() {
-                          favoriteMode = false;
-                          tutorList = List.of(originalTutorList);
-                          isSearching = false;
-                        });
-                      } else {
-                        favoriteMode = true;
-                        List<Tutor>? temp =
-                            await TutorService.getFavoriteTutorList(1, 10);
+                  Container(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      margin: EdgeInsets.only(top: 16, bottom: 8),
+                      alignment: Alignment.topLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Tutors".tr(),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 23,
+                            ),
+                          ),
+                          DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                            value: dropdownValue,
+                            icon: Icon(Icons.filter_list),
+                            onChanged: (String? newValue) async {
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
+                              print(newValue);
+                              if (newValue == "Rating") {
+                                setState(() {
+                                  favoriteMode = false;
+                                  List<Tutor> temp = List.of(tutorList);
+                                  temp.sort((a, b) =>
+                                      (b.rating ?? 0).compareTo(a.rating ?? 0));
+                                  tutorList = temp;
+                                });
+                              } else if (newValue == "None") {
+                                setState(() {
+                                  favoriteMode = false;
+                                  tutorList = List.of(originalTutorList);
+                                  isSearching = false;
+                                });
+                              } else {
+                                favoriteMode = true;
+                                List<Tutor>? temp =
+                                    await TutorService.getFavoriteTutorList(
+                                        1, 10);
 
-                        // tutorList = temp
-                        //     .where((tutor) => favoriteList.any(
-                        //         (element) => element.userId == tutor.userId))
-                        //     .toList();
-                        setState(() {
-                          tutorList = temp!;
-                          isSearching = true;
-                        });
-                      }
-                    },
-                    items: <String>['None', 'Rating', 'Favorite']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ))
+                                // tutorList = temp
+                                //     .where((tutor) => favoriteList.any(
+                                //         (element) => element.userId == tutor.userId))
+                                //     .toList();
+                                setState(() {
+                                  tutorList = temp!;
+                                  isSearching = true;
+                                });
+                              }
+                            },
+                            items: <String>['None', 'Rating', 'Favorite']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ))
+                        ],
+                      )),
                 ],
-              )),
-          Container(
-            height: 500,
-            padding: EdgeInsets.only(left: 20, right: 20),
-            // child: Column(
-            //   children:
-            //       // SearchComponent()
-            //       _getListData(),
-            // ),
-            child: ListView.builder(
-                controller: _scrollController,
-                itemCount: tutorList.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index < tutorList.length)
-                    return TutorInfoCard(
-                      tutor: tutorList[index],
-                      isFavorite: checkFavorite(tutorList[index], favoriteList),
-                      key: ValueKey(tutorList[index].userId),
-                    );
-                  else
-                    return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 32),
-                        child: !isNoTutor && !favoriteMode
-                            ? Center(child: CircularProgressIndicator())
-                            : Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset('images/empty-box.png',
-                                        width: 70, height: 70),
-                                    SizedBox(height: 5.0),
-                                    Text(
-                                      'No tutor',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ));
-                }),
-          )
-        ],
-      ),
+              );
+            } else if (index <= tutorList.length)
+              return Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: TutorInfoCard(
+                  tutor: tutorList[index - 1],
+                  isFavorite: checkFavorite(tutorList[index - 1], favoriteList),
+                  key: ValueKey(tutorList[index - 1].userId),
+                ),
+              );
+            else
+              return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 32),
+                  child: !isNoTutor && !favoriteMode
+                      ? Center(child: CircularProgressIndicator())
+                      : Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Image.asset('images/empty-box.png',
+                                  width: 70, height: 70),
+                              SizedBox(height: 5.0),
+                              Text(
+                                'No tutor',
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ));
+          }),
     );
   }
 }

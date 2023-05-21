@@ -354,16 +354,16 @@ class _TutorInfoState extends State<TutorInfo> {
                                                     // ).closed.then((value) {
                                                     //   Navigator.pop(context, 'OK');
                                                     // });
-                                                    Fluttertoast.showToast(
-                                                        msg: "Successful",
-                                                        toastLength:
-                                                            Toast.LENGTH_SHORT,
-                                                        gravity:
-                                                            ToastGravity.BOTTOM,
-                                                        backgroundColor:
-                                                            Colors.green,
-                                                        textColor: Colors.white,
-                                                        fontSize: 16.0);
+                                                    showTopSnackBar(
+                                                        Overlay.of(context),
+                                                        CustomSnackBar.success(
+                                                          message: "Report successfully",
+                                                          maxLines: 2,
+                                                        ),
+                                                        displayDuration: const Duration(
+                                                            milliseconds: 500),
+                                                        animationDuration: const Duration(
+                                                            milliseconds: 1000));
                                                   }
                                                   Future.delayed(
                                                       Duration(seconds: 1), () {
