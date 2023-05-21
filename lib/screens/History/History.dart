@@ -23,6 +23,7 @@ class _HistoryState extends State<History> {
   int currentPage = 1;
   final ScrollController _scrollController = ScrollController();
   int perPage = 10;
+  bool isNoHistory = false;
 
   @override
   void initState() {
@@ -56,7 +57,12 @@ class _HistoryState extends State<History> {
     int timeStampNow = DateTime.now().millisecondsSinceEpoch;
     var temp = await ClassService.getsortedBookingList(
         page, perPage, timeStampNow, "desc");
+
     setState(() {
+      if (temp!.isEmpty || temp!.length == 1)
+        isNoHistory = true;
+      else
+        isNoHistory = false;
       currentPage++;
       bookingList.addAll(temp!);
       // isInProgress = false;
@@ -79,8 +85,25 @@ class _HistoryState extends State<History> {
                     return HistoryItem(booking: bookingList[index],);
                   else
                     return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: CircularProgressIndicator()));
+                      padding: EdgeInsets.symmetric(vertical: 32),
+                      child: !isNoHistory
+                          ? Center(child: CircularProgressIndicator())
+                          : Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset('images/empty-box.png',
+                                width: 70, height: 70),
+                            SizedBox(height: 5.0),
+                            Text(
+                              'No History',
+                              style:
+                              TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                 })));
   }
 }

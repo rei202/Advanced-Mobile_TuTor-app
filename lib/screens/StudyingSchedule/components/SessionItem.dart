@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +131,7 @@ class _SessionItemState extends State<SessionItem> {
                                           noteTextController.clear();
                                           Navigator.pop(context, 'Cancel');
                                         },
-                                        child: const Text('Cancel'),
+                                        child:  Text('Cancel').tr(),
                                       ),
                                       TextButton(
                                         style: ButtonStyle(
