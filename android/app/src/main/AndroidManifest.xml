@@ -8,7 +8,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="lettutor"
+        android:label="Let Tutor App"
         tools:replace="android:label">
 
         <meta-data

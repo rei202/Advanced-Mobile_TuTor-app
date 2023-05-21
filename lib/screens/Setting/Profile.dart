@@ -9,6 +9,8 @@ import 'package:lettutor/models/UserInfo.dart';
 import 'package:lettutor/services/profileService.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/widgets.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key, required this.myInfo}) : super(key: key);
@@ -45,7 +47,18 @@ class _ProfileState extends State<Profile> {
       setState(() {
         _selectedImage = File(pickedImage.path);
       });
-      await ProfileService.updateAvatar(File(pickedImage.path));
+      var res = await ProfileService.updateAvatar(File(pickedImage.path));
+      print(res);
+      if (res != null) {
+        showTopSnackBar(
+            Overlay.of(context),
+            CustomSnackBar.success(
+              message: "Update avatar successfully",
+              maxLines: 2,
+            ),
+            displayDuration: const Duration(milliseconds: 500),
+            animationDuration: const Duration(milliseconds: 1000));
+      }
     }
   }
 
@@ -261,21 +274,26 @@ class _ProfileState extends State<Profile> {
                                     country.text,
                                     level.text);
                             if (user != null) {
-                              Fluttertoast.showToast(
-                                  msg: "Successful",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  backgroundColor: Colors.green,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
+                              showTopSnackBar(
+                                  Overlay.of(context),
+                                  CustomSnackBar.success(
+                                    message: "Update profile successfully",
+                                    maxLines: 2,
+                                  ),
+                                  displayDuration:
+                                      const Duration(milliseconds: 500),
+                                  animationDuration:
+                                      const Duration(milliseconds: 1000));
                             } else
-                              Fluttertoast.showToast(
-                                  msg: "Update user info failed",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
+                            showTopSnackBar(
+                                Overlay.of(context),
+                                CustomSnackBar.error(
+                                  message:
+                                  "Update user info failed",
+                                  maxLines: 2,
+                                ),
+                                displayDuration: const Duration(
+                                    milliseconds: 500));
                             Future.delayed(Duration(seconds: 1), () {
                               Navigator.pop(context, true);
                             });
